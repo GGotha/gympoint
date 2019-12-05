@@ -4,10 +4,9 @@ import Routes from "./routes";
 import GlobalStyle from "./Global/styles";
 
 const App = () => (
-  <Fragment>
-    <GlobalStyle />
-    <Routes />
-  </Fragment>
+  <div>
+    <h1>gympoint</h1>
+  </div>
 );
 
 export default App;
