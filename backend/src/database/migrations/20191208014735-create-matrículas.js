@@ -2,19 +2,35 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable("planos", {
+    return queryInterface.createTable("matrículas", {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         primaryKey: true,
         autoIncrement: true
       },
-      title: {
-        type: Sequelize.STRING,
+      student_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "students",
+          key: "id"
+        }
+      },
+      plan_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "planos",
+          key: "id"
+        }
+      },
+      start_date: {
+        type: Sequelize.DATE,
         allowNull: false
       },
-      duration: {
-        type: Sequelize.INTEGER,
+      end_date: {
+        type: Sequelize.DATE,
         allowNull: false
       },
       price: {
@@ -33,6 +49,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable("planos");
+    return queryInterface.dropTable("matrículas");
   }
 };

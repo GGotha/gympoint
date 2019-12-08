@@ -6,22 +6,22 @@ module.exports = {
       {
         id: "1",
         title: "Start",
-        duration: moment().format("YYYY-MM-DD HH:mm:ss"),
-        price: "129",
+        duration: 1,
+        price: "129.00",
         created_at: moment().format("YYYY-MM-DD HH:mm:ss")
       },
       {
         id: "2",
         title: "Gold",
-        duration: moment().format("YYYY-MM-DD HH:mm:ss"),
-        price: "109",
+        duration: 3,
+        price: "109.00",
         created_at: moment().format("YYYY-MM-DD HH:mm:ss")
       },
       {
         id: "3",
         title: "Diamond",
-        duration: moment().format("YYYY-MM-DD HH:mm:ss"),
-        price: "89",
+        duration: 6,
+        price: "89.00",
         created_at: moment().format("YYYY-MM-DD HH:mm:ss")
       }
     ]);

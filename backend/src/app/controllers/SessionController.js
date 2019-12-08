@@ -1,10 +1,10 @@
-const { User } = require("../models");
+const { Users } = require("../models");
 
 class SessionController {
   async store(req, res) {
     const { email, password } = req.body;
 
-    const user = await User.findOne({
+    const user = await Users.findOne({
       where: { email }
     });
 

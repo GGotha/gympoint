@@ -4,6 +4,8 @@ const authMiddleware = require("./app/middlewares/auth");
 const cors = require("cors");
 
 const StudentController = require("./app/controllers/StudentController");
+const PlanoController = require("./app/controllers/PlanoController");
+const MatrículaController = require("./app/controllers/MatrículaController");
 
 protectedRoutes.use(authMiddleware);
 
@@ -23,5 +25,10 @@ protectedRoutes.use(
 );
 
 protectedRoutes.post("/students", StudentController.store);
+protectedRoutes.post("/planos", PlanoController.store);
+protectedRoutes.get("/planos", PlanoController.index);
+protectedRoutes.delete("/planos/:id", PlanoController.delete);
+protectedRoutes.put("/planos/:id", PlanoController.put);
+protectedRoutes.post("/matriculas", MatrículaController.store);
 
 module.exports = protectedRoutes;

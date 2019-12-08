@@ -3,7 +3,6 @@ const routes = express.Router();
 
 const cors = require("cors");
 
-const StudentController = require("./app/controllers/StudentController");
 const SessionController = require("./app/controllers/SessionController");
 
 var allowedOrigins = process.env.CORS_ALLOW.split(",");

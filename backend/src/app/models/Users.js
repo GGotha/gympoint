@@ -3,8 +3,8 @@ const jwt = require("jsonwebtoken");
 const authJWT = require("../../config/auth");
 
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define(
-    "User",
+  const Users = sequelize.define(
+    "Users",
     {
       id: {
         type: DataTypes.INTEGER,
@@ -30,15 +30,15 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  User.prototype.checkPassword = function(password) {
+  Users.prototype.checkPassword = function(password) {
     return bcrypt.compare(password, this.password);
   };
 
-  User.prototype.generateToken = function() {
+  Users.prototype.generateToken = function() {
     return jwt.sign({ id: this.id }, authJWT.secret, {
       expiresIn: authJWT.time
     });
   };
 
-  return User;
+  return Users;
 };

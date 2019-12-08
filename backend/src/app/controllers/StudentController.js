@@ -1,5 +1,5 @@
-const { Student } = require("../models");
-const { User } = require("../models");
+const { Students } = require("../models");
+const { Users } = require("../models");
 
 class StudentController {
   async store(req, res) {
@@ -13,10 +13,10 @@ class StudentController {
 
     try {
       if (
-        (await User.findOne({
+        (await Users.findOne({
           where: { email }
         })) ||
-        (await Student.findOne({
+        (await Students.findOne({
           where: { email }
         }))
       ) {
@@ -25,7 +25,7 @@ class StudentController {
           .json({ status: "error", msg: "Email já cadastrado" });
       }
 
-      await Student.create({
+      await Students.create({
         name,
         email,
         age,
