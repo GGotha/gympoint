@@ -6,6 +6,7 @@ const cors = require("cors");
 const StudentController = require("./app/controllers/StudentController");
 const PlanoController = require("./app/controllers/PlanoController");
 const MatrículaController = require("./app/controllers/MatrículaController");
+const HelpOrdersController = require("./app/controllers/HelpOrdersController");
 
 protectedRoutes.use(authMiddleware);
 
@@ -30,5 +31,12 @@ protectedRoutes.get("/planos", PlanoController.index);
 protectedRoutes.delete("/planos/:id", PlanoController.delete);
 protectedRoutes.put("/planos/:id", PlanoController.put);
 protectedRoutes.post("/matriculas", MatrículaController.store);
+protectedRoutes.get("/matriculas", MatrículaController.index);
+protectedRoutes.delete("/matriculas/:id", MatrículaController.delete);
+protectedRoutes.put("/matriculas/:id", MatrículaController.put);
+protectedRoutes.post(
+  "/help-orders/:id/anwser",
+  HelpOrdersController.anwserStudents
+);
 
 module.exports = protectedRoutes;

@@ -12,9 +12,7 @@ class MatrículaController {
       const precoDoPlano = findPlanos.price;
       const duracaoDoPlano = findPlanos.duration;
 
-      const validationDate = isBefore(parseISO(start_date), new Date(), {
-        locale: pt
-      });
+      const validationDate = isBefore(parseISO(start_date), new Date());
 
       if (validationDate === true) {
         return res.send({
@@ -40,6 +38,57 @@ class MatrículaController {
         msg: "Matrícula realizada com sucesso!"
       });
     } catch (err) {
+      return res.send({
+        status: "error",
+        msg: "Ocorreu um erro no servidor, tente novamente mais tarde!"
+      });
+    }
+  }
+  async index(req, res) {
+    return res.send(await Matrículas.findAll());
+  }
+
+  async delete(req, res) {
+    const id = req.params.id;
+
+    try {
+      const findForDelete = await Matrículas.destroy({ where: { id } });
+
+      if (findForDelete === 0) {
+        return res.send({
+          status: "error",
+          msg: "Não é possível deletar uma matrícula inexistente"
+        });
+      }
+
+      return res.send({
+        status: "success",
+        msg: "Matrícula removida com sucesso!"
+      });
+    } catch (err) {
+      return res.send({
+        status: "error",
+        msg: "Ocorreu um erro no servidor, tente novamente mais tarde!"
+      });
+    }
+  }
+
+  async put(req, res) {
+    const id = req.params.id;
+
+    const { student_id, plan_id, start_date } = req.body;
+
+    try {
+      const findForUpdate = await Matrículas.findOne({ where: { id } });
+
+      await findForUpdate.update({ student_id, plan_id, start_date });
+
+      return res.send({
+        status: "success",
+        msg: "Matrícula alterada com sucesso!"
+      });
+    } catch (err) {
+      console.log(err);
       return res.send({
         status: "error",
         msg: "Ocorreu um erro no servidor, tente novamente mais tarde!"

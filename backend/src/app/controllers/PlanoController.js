@@ -17,7 +17,14 @@ class PlanoController {
     const id = req.params.id;
 
     try {
-      await Planos.destroy({ where: { id } });
+      const findForDelete = await Planos.destroy({ where: { id } });
+
+      if (findForDelete === 0) {
+        return res.send({
+          status: "error",
+          msg: "Não é possível deletar um plano inexistente"
+        });
+      }
 
       return res.send({
         status: "success",

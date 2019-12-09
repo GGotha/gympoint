@@ -4,6 +4,8 @@ const routes = express.Router();
 const cors = require("cors");
 
 const SessionController = require("./app/controllers/SessionController");
+const CheckinController = require("./app/controllers/CheckinController");
+const HelpOrdersController = require("./app/controllers/HelpOrdersController");
 
 var allowedOrigins = process.env.CORS_ALLOW.split(",");
 routes.use(
@@ -21,5 +23,9 @@ routes.use(
 );
 
 routes.post("/users/authenticate", SessionController.store);
+routes.post("/students/:id/checkins", CheckinController.store);
+routes.get("/students/:id/checkins", CheckinController.index);
+routes.post("/students/:id/help-orders", HelpOrdersController.store);
+routes.get("/students/:id/help-orders", HelpOrdersController.index);
 
 module.exports = routes;

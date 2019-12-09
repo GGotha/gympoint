@@ -37,6 +37,11 @@ class Server {
     this.express.use(async (err, req, res, next) => {
       let message = "Internal Server Error!";
 
+      if (process.env.NODE_ENV !== "production") {
+        const youch = new Youch(err);
+        message = await youch.toJSON();
+      }
+
       return res.status(500).send({ message });
     });
   }
