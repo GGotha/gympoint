@@ -1,4 +1,5 @@
 const { Students, HelpOrders } = require("../models");
+const Mail = require("../../lib/Mail");
 
 class HelpOrdersController {
   async store(req, res) {
@@ -47,9 +48,25 @@ class HelpOrdersController {
     const { answer } = req.body;
 
     try {
-      const findHelpOrders = await HelpOrders.findOne({ where: { id } });
+      const findHelpOrders = await HelpOrders.findOne({
+        where: { id },
+        include: [
+          {
+            model: Students,
+            attributes: ["name", "email"]
+          }
+        ]
+      });
 
       findHelpOrders.update({ answer, answer_at: new Date() });
+
+      await Mail.sendMail({
+        to: `${findHelpOrders.Student.name} <${findHelpOrders.Student.email}>`,
+        subject: "Gympoint - Sua dúvida foi respondida",
+        text: `Sua pergunta: ${findHelpOrders.question} 
+Resposta: ${answer}
+        `
+      });
 
       return res.send({
         status: "success",

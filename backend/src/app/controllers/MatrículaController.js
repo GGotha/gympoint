@@ -1,18 +1,28 @@
-const { Planos, Matrículas } = require("../models");
+const { Planos, Matrículas, Students } = require("../models");
 const { parseISO, addMonths, isBefore, addHours } = require("date-fns");
 const { pt } = require("date-fns/locale");
+const Mail = require("../../lib/Mail");
 
 class MatrículaController {
   async store(req, res) {
     const { student_id, plan_id, start_date } = req.body;
 
     try {
-      const findPlanos = await Planos.findOne({ where: { id: plan_id } });
+      const findPlanos = await Planos.findOne({
+        where: { id: plan_id }
+      });
+
+      const findStudent = await Students.findOne({
+        where: { id: student_id },
+        raw: true
+      });
 
       const precoDoPlano = findPlanos.price;
       const duracaoDoPlano = findPlanos.duration;
 
       const validationDate = isBefore(parseISO(start_date), new Date());
+
+      const data_fim = addMonths(parseISO(start_date), duracaoDoPlano);
 
       if (validationDate === true) {
         return res.send({
@@ -20,10 +30,6 @@ class MatrículaController {
           msg: "Você não pode escolher uma data que já passou"
         });
       }
-
-      const data_fim = addMonths(parseISO(start_date), duracaoDoPlano, {
-        locale: pt
-      });
 
       await Matrículas.create({
         student_id,
@@ -33,11 +39,23 @@ class MatrículaController {
         price: precoDoPlano
       });
 
+      await Mail.sendMail({
+        to: `${findStudent.name} <${findStudent.email}>`,
+        subject: "Gympoint - Sua matrícula foi criada",
+        text: `Sua matrícula foi criada, agradecemos sua confiança
+      Detalhes da sua Matrícula:
+              Plano: ${findPlanos.title},
+              Data de término: ${data_fim},
+              Valor: R$ ${precoDoPlano}
+              `
+      });
+
       return res.send({
         status: "success",
         msg: "Matrícula realizada com sucesso!"
       });
     } catch (err) {
+      console.log(err);
       return res.send({
         status: "error",
         msg: "Ocorreu um erro no servidor, tente novamente mais tarde!"
@@ -80,6 +98,15 @@ class MatrículaController {
 
     try {
       const findForUpdate = await Matrículas.findOne({ where: { id } });
+
+      const validationDate = isBefore(parseISO(start_date), new Date());
+
+      if (validationDate === true) {
+        return res.send({
+          status: "error",
+          msg: "Você não pode escolher uma data que já passou"
+        });
+      }
 
       await findForUpdate.update({ student_id, plan_id, start_date });
 
