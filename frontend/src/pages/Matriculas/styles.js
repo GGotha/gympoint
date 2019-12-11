@@ -29,7 +29,6 @@ export const BotaoCadastrar = styled.button`
   color: white;
   text-transform: uppercase;
   font-weight: bold;
-  margin-right: 30px;
   border-radius: 4px;
 
   svg {
