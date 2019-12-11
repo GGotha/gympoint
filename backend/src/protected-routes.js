@@ -26,6 +26,7 @@ protectedRoutes.use(
 );
 
 protectedRoutes.post("/students", StudentController.store);
+protectedRoutes.get("/students", StudentController.index);
 protectedRoutes.post("/planos", PlanoController.store);
 protectedRoutes.get("/planos", PlanoController.index);
 protectedRoutes.delete("/planos/:id", PlanoController.delete);
