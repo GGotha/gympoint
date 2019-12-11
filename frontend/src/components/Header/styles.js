@@ -1,11 +1,8 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
-const activeClassName = "nav-item-active";
 
 export const Container = styled.div`
   height: 64px;
   background: #fff;
-  /* padding: 0 30px; */
   width: 100%;
 `;
 

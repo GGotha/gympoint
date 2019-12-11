@@ -22,8 +22,6 @@ export default function GerenciandoAlunos() {
           data.duration > 1 ? data.duration + " meses" : data.duration + " mês"
       }));
 
-      console.log(dataFormatted);
-
       setDataPlanos(dataFormatted);
     }
 

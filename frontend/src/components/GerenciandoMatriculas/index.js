@@ -31,8 +31,6 @@ export default function GerenciandoMatriculas() {
         })
       }));
 
-      console.log(dataFormatted);
-
       setDataMatriculas(dataFormatted);
     }
 

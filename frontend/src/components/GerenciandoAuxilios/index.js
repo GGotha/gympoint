@@ -11,8 +11,6 @@ export default function GerenciandoAuxilios() {
     async function getAuxilios() {
       const response = await api.get("help-orders");
 
-      console.log(response.data);
-
       setDataAuxilios(response.data);
     }
 
