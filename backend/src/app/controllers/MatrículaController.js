@@ -63,7 +63,20 @@ class MatrículaController {
     }
   }
   async index(req, res) {
-    return res.send(await Matrículas.findAll());
+    return res.send(
+      await Matrículas.findAll({
+        include: [
+          {
+            model: Planos,
+            attributes: ["title"]
+          },
+          {
+            model: Students,
+            attributes: ["name"]
+          }
+        ]
+      })
+    );
   }
 
   async delete(req, res) {

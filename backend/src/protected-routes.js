@@ -39,5 +39,6 @@ protectedRoutes.post(
   "/help-orders/:id/anwser",
   HelpOrdersController.anwserStudents
 );
+protectedRoutes.get("/help-orders", HelpOrdersController.indexUnanswered);
 
 module.exports = protectedRoutes;

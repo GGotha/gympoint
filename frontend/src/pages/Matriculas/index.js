@@ -1,18 +1,18 @@
 import React from "react";
 
 import { Content, BotaoCadastrar } from "./styles";
-import GerenciandoPlanos from "~/components/GerenciandoPlanos";
-import Header from "~/components/Header";
+import Header from "../../components/Header";
+import GerenciandoMatriculas from "../../components/GerenciandoMatriculas";
 import { FaPlus } from "react-icons/fa";
 
-export default function Planos() {
+export default function Matriculas() {
   return (
     <div>
       <Header />
       <Content>
         <div>
           <div>
-            <h2>Gerenciando planos</h2>
+            <h2>Gerenciando Matrículas</h2>
           </div>
           <aside>
             <BotaoCadastrar>
@@ -22,7 +22,7 @@ export default function Planos() {
           </aside>
         </div>
 
-        <GerenciandoPlanos />
+        <GerenciandoMatriculas />
       </Content>
     </div>
   );

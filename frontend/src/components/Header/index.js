@@ -12,12 +12,9 @@ export default function Header() {
 
   useEffect(() => {
     var getUrlAndSplit = window.location.pathname.split("/");
-
-    var getNameProperty = document.getElementsByName(getUrlAndSplit[1])[0].name;
-
-    if (getUrlAndSplit[1] === getNameProperty) {
-      document.getElementsByName(getUrlAndSplit[1])[0].style.color = "black";
-    }
+    var routeName = getUrlAndSplit[1];
+    var routeDOMElement = document.getElementsByName(routeName)[0];
+    routeDOMElement.style.color = "black";
   }, []);
 
   const profile = useSelector(state => state.Reducers.profile);
@@ -30,7 +27,9 @@ export default function Header() {
     <Container>
       <Content>
         <nav>
-          <img src={logo} alt="logo " />
+          <Link to="/alunos">
+            <img src={logo} alt="logo " />
+          </Link>
           <span>Gympoint</span>
 
           <ul>
@@ -45,12 +44,12 @@ export default function Header() {
               </Link>
             </li>
             <li>
-              <Link name="matriculas" to="#">
+              <Link name="matriculas" to="/matriculas">
                 Matrículas
               </Link>
             </li>
             <li>
-              <Link name="pedidos-de-auxilio" to="#">
+              <Link name="pedidos-de-auxilio" to="/pedidos-de-auxilio">
                 Pedidos de auxílio
               </Link>
             </li>

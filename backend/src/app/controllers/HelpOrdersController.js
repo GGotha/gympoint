@@ -42,6 +42,20 @@ class HelpOrdersController {
     return res.send(await HelpOrders.findAll({ where: { student_id: id } }));
   }
 
+  async indexUnanswered(req, res) {
+    return res.send(
+      await HelpOrders.findAll({
+        where: { answer_at: null },
+        include: [
+          {
+            model: Students,
+            attributes: ["name"]
+          }
+        ]
+      })
+    );
+  }
+
   async anwserStudents(req, res) {
     const id = req.params.id;
 

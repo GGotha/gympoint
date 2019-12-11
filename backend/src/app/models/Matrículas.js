@@ -36,9 +36,6 @@ module.exports = (sequelize, DataTypes) => {
 
   Matrículas.associate = models => {
     Matrículas.belongsTo(models.Students, { foreignKey: "student_id" });
-  };
-
-  Matrículas.associate = models => {
     Matrículas.belongsTo(models.Planos, { foreignKey: "plan_id" });
   };
 

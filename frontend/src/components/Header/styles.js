@@ -47,6 +47,9 @@ export const Content = styled.div`
         a {
           text-decoration: none;
           color: #999999;
+          text-transform: uppercase;
+          font-weight: bold;
+          font-size: 15px;
         }
       }
     }
@@ -79,13 +82,3 @@ export const Profile = styled.div`
     }
   }
 `;
-
-// export const NavItem = styled(Link).attrs({
-//   activeClassName
-// })`
-//   background-color: blue;
-
-//   &.${activeClassName} {
-//     background-color: #fff;
-//   }
-// `;

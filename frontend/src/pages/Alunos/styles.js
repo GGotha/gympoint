@@ -12,18 +12,6 @@ export const Content = styled.div`
       display: flex;
       width: 30%;
 
-      button {
-        background: #ee4d64;
-        border: none;
-        outline: 0;
-        padding: 8px 25px;
-        color: white;
-        text-transform: uppercase;
-        font-weight: bold;
-        margin-right: 30px;
-        border-radius: 4px;
-      }
-
       input {
         border: 0.5px solid #eee;
         padding-left: 15px;
@@ -45,6 +33,15 @@ export const BotaoCadastrar = styled.button`
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  background: #ee4d64;
+  border: none;
+  outline: 0;
+  padding: 8px 25px;
+  color: white;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-right: 30px;
+  border-radius: 4px;
 
   svg {
     margin-right: 10px;

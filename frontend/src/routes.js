@@ -6,6 +6,8 @@ import Route from "./components/PrivateRoute";
 import Signin from "./pages/Signin";
 import Alunos from "./pages/Alunos";
 import Planos from "./pages/Planos";
+import Matriculas from "./pages/Matriculas";
+import PedidosDeAuxilio from "./pages/PedidosDeAuxilio";
 
 export default function Routes() {
   return (
@@ -14,6 +16,12 @@ export default function Routes() {
         <Route exact path="/" component={Signin} />
         <Route path="/alunos" component={Alunos} isPrivate />
         <Route path="/planos" component={Planos} isPrivate />
+        <Route path="/matriculas" component={Matriculas} isPrivate />
+        <Route
+          path="/pedidos-de-auxilio"
+          component={PedidosDeAuxilio}
+          isPrivate
+        />
       </Switch>
     </BrowserRouter>
   );
