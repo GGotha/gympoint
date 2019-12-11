@@ -47,7 +47,6 @@ class StudentController {
   async index(req, res) {
     return res.send(
       await Students.findAll({
-        where: {},
         attributes: ["id", "name", "email", "age"]
       })
     );
