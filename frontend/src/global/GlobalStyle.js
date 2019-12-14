@@ -15,6 +15,10 @@ const GlobalStyle = createGlobalStyle`
     font-family: Roboto, Helvetica, sans-serif;
     background: #F5F5F5 !important;
   }
+
+  a {
+    text-decoration: none;
+  }
 `;
 
 export default GlobalStyle;

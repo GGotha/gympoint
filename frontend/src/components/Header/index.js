@@ -13,8 +13,12 @@ export default function Header() {
   useEffect(() => {
     var getUrlAndSplit = window.location.pathname.split("/");
     var routeName = getUrlAndSplit[1];
+
     var routeDOMElement = document.getElementsByName(routeName)[0];
-    routeDOMElement.style.color = "black";
+
+    if (routeDOMElement !== undefined) {
+      routeDOMElement.style.color = "black";
+    }
   }, []);
 
   const profile = useSelector(state => state.Reducers.profile);

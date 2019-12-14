@@ -1,5 +1,6 @@
 import React from "react";
 import Header from "~/components/Header";
+import { Link } from "react-router-dom";
 
 import { Content, BotaoCadastrar } from "./styles";
 import GerenciandoAlunos from "~/components/GerenciandoAlunos";
@@ -15,10 +16,12 @@ export default function Alunos() {
             <h2>Gerenciando alunos</h2>
           </div>
           <aside>
-            <BotaoCadastrar>
-              <FaPlus />
-              Cadastrar
-            </BotaoCadastrar>
+            <Link to="/cadastro-de-alunos">
+              <BotaoCadastrar>
+                <FaPlus />
+                Cadastrar
+              </BotaoCadastrar>
+            </Link>
             <input type="text" placeholder="Buscar aluno" />
           </aside>
         </div>

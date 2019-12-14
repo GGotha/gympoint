@@ -4,6 +4,7 @@ import { Content, BotaoCadastrar } from "./styles";
 import Header from "../../components/Header";
 import GerenciandoMatriculas from "../../components/GerenciandoMatriculas";
 import { FaPlus } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 export default function Matriculas() {
   return (
@@ -15,10 +16,12 @@ export default function Matriculas() {
             <h2>Gerenciando Matrículas</h2>
           </div>
           <aside>
-            <BotaoCadastrar>
-              <FaPlus />
-              Cadastrar
-            </BotaoCadastrar>
+            <Link to="/cadastro-de-matriculas">
+              <BotaoCadastrar>
+                <FaPlus />
+                Cadastrar
+              </BotaoCadastrar>
+            </Link>
           </aside>
         </div>
 

@@ -4,6 +4,7 @@ import { Content, BotaoCadastrar } from "./styles";
 import GerenciandoPlanos from "~/components/GerenciandoPlanos";
 import Header from "~/components/Header";
 import { FaPlus } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 export default function Planos() {
   return (
@@ -15,10 +16,12 @@ export default function Planos() {
             <h2>Gerenciando planos</h2>
           </div>
           <aside>
-            <BotaoCadastrar>
-              <FaPlus />
-              Cadastrar
-            </BotaoCadastrar>
+            <Link to="/cadastro-de-planos">
+              <BotaoCadastrar>
+                <FaPlus />
+                Cadastrar
+              </BotaoCadastrar>
+            </Link>
           </aside>
         </div>
 

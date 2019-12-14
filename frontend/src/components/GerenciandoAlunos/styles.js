@@ -28,11 +28,21 @@ export const Container = styled.div`
   }
 `;
 
-export const Editar = styled(Link)`
+export const Editar = styled.button`
   text-decoration: none;
   color: #4d85ee;
+  background: none;
+  outline: 0;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
 `;
-export const Apagar = styled(Link)`
+export const Apagar = styled.button`
   text-decoration: none;
-  color: red;
+  color: #de3b3b;
+  background: none;
+  outline: 0;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
 `;

@@ -51,6 +51,37 @@ class StudentController {
       })
     );
   }
+
+  async indexStudentsById(req, res) {
+    const id = req.params.id;
+
+    return res.send(
+      await Students.findOne({
+        where: { id }
+      })
+    );
+  }
+
+  async put(req, res) {
+    const id = req.params.id;
+
+    const { nome, email, idade, peso, altura } = req.body;
+
+    const findStudentById = await Students.findOne({ where: { id } });
+
+    findStudentById.update({
+      name: nome,
+      email,
+      age: idade,
+      weight: peso,
+      height: altura
+    });
+
+    return res.send({
+      status: "success",
+      msg: "Aluno alterado com sucesso!"
+    });
+  }
 }
 
 module.exports = new StudentController();
