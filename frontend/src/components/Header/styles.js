@@ -31,6 +31,7 @@ export const Content = styled.div`
       color: #ee4d64;
       font-weight: bold;
       text-transform: uppercase;
+      padding: 8px 30px 8px 0px;
     }
 
     ul {

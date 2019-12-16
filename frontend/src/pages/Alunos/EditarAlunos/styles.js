@@ -85,6 +85,7 @@ export const QuadroDeCadastros = styled.div`
   padding: 30px 30px;
   width: 100%;
   background: #fff;
+  margin-top: 30px;
 `;
 
 export const FormularioCadastroAlunos = styled(Form)`

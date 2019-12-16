@@ -1,17 +1,17 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 
 export const Container = styled.div`
   table {
-    padding: 30px 30px;
-    border-collapse: collapse;
+    border-collapse: separate;
     width: 100%;
+    padding: 20px 30px;
+    border-radius: 4px;
 
     thead {
       tr {
         th {
           text-align: left;
-          padding: 15px;
+          padding: 15px 15px 15px 0px;
           text-transform: uppercase;
         }
       }
@@ -20,8 +20,15 @@ export const Container = styled.div`
     tbody {
       tr {
         td {
-          padding: 15px;
+          padding: 15px 15px 15px 0px;
           color: #666666;
+          border-bottom: 1px solid #ddd;
+        }
+
+        &:last-child {
+          td {
+            border: none;
+          }
         }
       }
     }
