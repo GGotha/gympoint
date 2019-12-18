@@ -5,7 +5,7 @@ import { persistReducer } from "redux-persist";
 export default reducers => {
   const persistedReducer = persistReducer(
     {
-      key: "gympoint2",
+      key: "gympoint4",
       storage,
       whitelist: ["Reducers"]
     },

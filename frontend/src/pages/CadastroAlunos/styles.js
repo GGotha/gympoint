@@ -8,6 +8,7 @@ export const Content = styled.div`
   div {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 20px;
 
     aside {
       display: flex;
@@ -41,7 +42,7 @@ export const BotaoSalvar = styled.button`
   text-transform: uppercase;
   font-weight: bold;
   border-radius: 4px;
-  height: auto;
+  height: 35px;
 
   svg {
     margin-right: 10px;
@@ -69,6 +70,7 @@ export const BotaoVoltar = styled.button`
   font-weight: bold;
   margin-right: 30px;
   border-radius: 4px;
+  height: 35px;
 
   svg {
     margin-right: 10px;
@@ -82,7 +84,7 @@ export const BotaoVoltar = styled.button`
 `;
 
 export const QuadroDeCadastros = styled.div`
-  padding: 30px 30px;
+  padding: 30px 30px 0px 30px;
   width: 100%;
   background: #fff;
 `;

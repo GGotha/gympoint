@@ -2,9 +2,28 @@ const { Planos, Matrículas, Students } = require("../models");
 const { parseISO, addMonths, isBefore, addHours } = require("date-fns");
 const { pt } = require("date-fns/locale");
 const Mail = require("../../lib/Mail");
+const Yup = require("yup");
 
 class MatrículaController {
   async store(req, res) {
+    const schema = Yup.object().shape({
+      student_id: Yup.number()
+        .integer()
+        .positive()
+        .required(),
+      plan_id: Yup.number()
+        .integer()
+        .positive()
+        .required(),
+      start_date: Yup.date().required()
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res
+        .status(400)
+        .json({ status: "error", msg: "Erro na validação" });
+    }
+
     const { student_id, plan_id, start_date } = req.body;
 
     try {
@@ -106,6 +125,24 @@ class MatrículaController {
 
   async put(req, res) {
     const id = req.params.id;
+
+    const schema = Yup.object().shape({
+      student_id: Yup.number()
+        .integer()
+        .positive()
+        .required(),
+      plan_id: Yup.number()
+        .integer()
+        .positive()
+        .required(),
+      start_date: Yup.date().required()
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res
+        .status(400)
+        .json({ status: "error", msg: "Erro na validação" });
+    }
 
     const { student_id, plan_id, start_date } = req.body;
 

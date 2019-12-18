@@ -1,7 +1,26 @@
 const { Planos } = require("../models");
+const Yup = require("yup");
 
 class PlanoController {
-  async store(req, res, next) {
+  async store(req, res) {
+    const schema = Yup.object().shape({
+      title: Yup.string().required(),
+      duration: Yup.string()
+        .number()
+        .integer()
+        .positve()
+        .required(),
+      price: Yup.number()
+        .positive()
+        .required()
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res
+        .status(400)
+        .json({ status: "error", msg: "Erro na validação" });
+    }
+
     const { title, duration, price } = req.body;
 
     await Planos.create({ title, duration, price });
@@ -40,6 +59,24 @@ class PlanoController {
 
   async put(req, res, next) {
     const id = req.params.id;
+
+    const schema = Yup.object().shape({
+      title: Yup.string().required(),
+      duration: Yup.string()
+        .number()
+        .integer()
+        .positve()
+        .required(),
+      price: Yup.number()
+        .positive()
+        .required()
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res
+        .status(400)
+        .json({ status: "error", msg: "Erro na validação" });
+    }
 
     const { title, duration, price } = req.body;
 

@@ -24,7 +24,7 @@ export default function Header() {
   const profile = useSelector(state => state.Reducers.profile);
 
   function handleSignOut() {
-    dispatch(AuthActions.signOut());
+    dispatch(AuthActions.signLeave());
   }
 
   return (

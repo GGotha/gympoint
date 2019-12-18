@@ -1,9 +1,20 @@
 const { Students, HelpOrders } = require("../models");
 const Mail = require("../../lib/Mail");
+const Yup = require("yup");
 
 class HelpOrdersController {
   async store(req, res) {
     const id = req.params.id;
+
+    const schema = Yup.object().shape({
+      question: Yup.string().required()
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res
+        .status(400)
+        .json({ status: "error", msg: "Erro na validação" });
+    }
 
     const { question } = req.body;
 
@@ -58,6 +69,16 @@ class HelpOrdersController {
 
   async anwserStudents(req, res) {
     const id = req.params.id;
+
+    const schema = Yup.object().shape({
+      question: Yup.string().required()
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res
+        .status(400)
+        .json({ status: "error", msg: "Erro na validação" });
+    }
 
     const { answer } = req.body;
 

@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { BrowserRouter, Switch } from "react-router-dom";
+import { Switch } from "react-router-dom";
 import Route from "./components/PrivateRoute";
 
 // import { Container } from './styles';

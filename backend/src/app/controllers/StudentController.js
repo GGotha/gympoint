@@ -1,8 +1,32 @@
 const { Students } = require("../models");
 const { Users } = require("../models");
+const Yup = require("yup");
 
 class StudentController {
   async store(req, res) {
+    const schema = Yup.object().shape({
+      nome: Yup.string().required(),
+      email: Yup.string()
+        .email()
+        .required(),
+      idade: Yup.number()
+        .required()
+        .positive()
+        .integer(),
+      peso: Yup.number()
+        .required()
+        .positive(),
+      altura: Yup.number()
+        .required()
+        .positive()
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res
+        .status(400)
+        .json({ status: "error", msg: "Erro na validação" });
+    }
+
     const {
       nome: name,
       email,
@@ -21,7 +45,7 @@ class StudentController {
         }))
       ) {
         return res
-          .status(422)
+          .status(400)
           .json({ status: "error", msg: "Email já cadastrado" });
       }
 
@@ -44,6 +68,7 @@ class StudentController {
       });
     }
   }
+
   async index(req, res) {
     return res.send(
       await Students.findAll({
@@ -65,6 +90,29 @@ class StudentController {
   async put(req, res) {
     const id = req.params.id;
 
+    const schema = Yup.object().shape({
+      nome: Yup.string().required(),
+      email: Yup.string()
+        .email()
+        .required(),
+      idade: Yup.number()
+        .required()
+        .positive()
+        .integer(),
+      peso: Yup.number()
+        .required()
+        .positive(),
+      altura: Yup.number()
+        .required()
+        .positive()
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res
+        .status(400)
+        .json({ status: "error", msg: "Erro na validação" });
+    }
+
     const { nome, email, idade, peso, altura } = req.body;
 
     const findStudentById = await Students.findOne({ where: { id } });
@@ -81,6 +129,31 @@ class StudentController {
       status: "success",
       msg: "Aluno alterado com sucesso!"
     });
+  }
+
+  async delete(req, res) {
+    const id = req.params.id;
+
+    try {
+      const findForDelete = await Students.destroy({ where: { id } });
+
+      if (findForDelete === 0) {
+        return res.send({
+          status: "error",
+          msg: "Não é possível deletar um aluno inexistente"
+        });
+      }
+
+      return res.send({
+        status: "success",
+        msg: "Aluno removido com sucesso!"
+      });
+    } catch (err) {
+      return res.send({
+        status: "error",
+        msg: "Ocorreu um erro no servidor, tente novamente mais tarde!"
+      });
+    }
   }
 }
 

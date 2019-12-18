@@ -1,7 +1,23 @@
 const { Users } = require("../models");
+const Yup = require("yup");
 
 class SessionController {
   async store(req, res) {
+    const schema = Yup.object().shape({
+      email: Yup.string()
+        .email()
+        .required(),
+      password: Yup.string()
+        .min(6)
+        .required()
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res
+        .status(400)
+        .json({ status: "error", msg: "Erro na validação" });
+    }
+
     const { email, password } = req.body;
 
     const user = await Users.findOne({

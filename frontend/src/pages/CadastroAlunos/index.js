@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 import { FaAngleLeft, FaCheck } from "react-icons/fa";
 import api from "~/services/api";
 import { toast } from "react-toastify";
-// import api from "~/services/api";
+import { connect, useDispatch } from "react-redux";
+import { Creators } from "../../store/modules/ducks/reducers";
 
 import {
   Content,
@@ -16,7 +17,9 @@ import {
   InputIdadePesoAltura
 } from "./styles";
 
-export default function CadastroAlunos() {
+export default function CadastroAlunos(props) {
+  const dispatch = useDispatch();
+
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [idade, setIdade] = useState("");
@@ -42,7 +45,7 @@ export default function CadastroAlunos() {
       toast.success(response.data.msg);
     }
 
-    console.log(response.data);
+    dispatch(Creators.listStudentsRequest());
   }
 
   return (

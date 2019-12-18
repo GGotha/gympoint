@@ -34,7 +34,7 @@ export function* sagasAuth({ payload }) {
   }
 }
 
-export function signOut() {
+export function signLeave() {
   history.push("/");
 }
 
@@ -50,8 +50,26 @@ export function setToken({ payload }) {
   }
 }
 
+export function* listStudents() {
+  try {
+    const response = yield call(api.get, "students");
+
+    const students = response.data;
+
+    if (response.data.status === "error") {
+      return toast.error(response.data.msg);
+    }
+
+    yield put(Creators.listStudentsSuccess(students));
+  } catch (err) {
+    toast.error("Falha na busca das exchanges");
+    yield put(Creators.listFailure());
+  }
+}
+
 export default all([
   takeLatest("persist/REHYDRATE", setToken),
   takeLatest(Types.REQUEST_AUTH, sagasAuth),
-  takeLatest(Types.OUT_AUTH, signOut)
+  takeLatest(Types.LEAVE_AUTH, signLeave),
+  takeLatest(Types.REQUEST_LISTSTUDENTS, listStudents)
 ]);
