@@ -45,20 +45,29 @@ export default function EditarAlunos() {
     var getUrlAndSplit = window.location.pathname.split("/");
     var id = getUrlAndSplit[2];
 
-    const response = await api.put(`/students/${id}`, {
-      nome,
-      email,
-      idade,
-      peso,
-      altura
-    });
+    try {
+      const pesoValidation = peso.replace(",", ".");
+      const alturaValidation = altura.replace(",", ".");
 
-    if (response.data.status === "error") {
-      toast.error(response.data.msg);
-    }
+      const response = await api.put(`/students/${id}`, {
+        nome,
+        email,
+        idade,
+        peso: pesoValidation,
+        altura: alturaValidation
+      });
 
-    if (response.data.status === "success") {
-      toast.success(response.data.msg);
+      if (response.data.status === "error") {
+        toast.error(response.data.msg);
+      }
+
+      if (response.data.status === "success") {
+        toast.success(response.data.msg);
+      }
+    } catch (err) {
+      return toast.error(
+        "Ocorreu um erro com o servidor, tente novamente mais tarde!  "
+      );
     }
   }
 

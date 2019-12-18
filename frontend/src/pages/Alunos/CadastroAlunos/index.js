@@ -5,7 +5,7 @@ import { FaAngleLeft, FaCheck } from "react-icons/fa";
 import api from "~/services/api";
 import { toast } from "react-toastify";
 import { connect, useDispatch } from "react-redux";
-import { Creators } from "../../store/modules/ducks/reducers";
+import { Creators } from "~/store/modules/ducks/reducers";
 
 import {
   Content,

@@ -8,12 +8,12 @@ import Alunos from "./pages/Alunos";
 import Planos from "./pages/Planos";
 import Matriculas from "./pages/Matriculas";
 import PedidosDeAuxilio from "./pages/PedidosDeAuxilio";
-import CadastroAlunos from "./pages/CadastroAlunos";
-import CadastroPlanos from "./pages/CadastroPlanos";
-import CadastroMatriculas from "./pages/CadastroMatriculas";
+import CadastroAlunos from "./pages/Alunos/CadastroAlunos";
+import CadastroPlanos from "./pages/Planos/CadastroPlanos";
+import CadastroMatriculas from "./pages/Matriculas/CadastroMatriculas";
 import EditarAlunos from "./pages/Alunos/EditarAlunos";
-import EditarPlanos from "./pages/EditarPlanos";
-import EditarMatriculas from "./pages/EditarMatriculas";
+import EditarPlanos from "./pages/Planos/EditarPlanos";
+import EditarMatriculas from "./pages/Matriculas/EditarMatriculas";
 
 export default function Routes() {
   return (

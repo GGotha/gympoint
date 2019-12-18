@@ -24,8 +24,6 @@ const INITIAL_STATE = {
 //REDUCERS
 
 export default function reducers(state = INITIAL_STATE, action) {
-  console.log(action);
-
   switch (action.type) {
     case Types.REQUEST_AUTH:
       return produce(state, draft => {

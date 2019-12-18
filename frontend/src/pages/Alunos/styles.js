@@ -10,7 +10,7 @@ export const Content = styled.div`
 
     aside {
       display: flex;
-      width: 30%;
+      width: 40%;
 
       input {
         border: 0.5px solid #eee;

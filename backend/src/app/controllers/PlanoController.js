@@ -5,27 +5,36 @@ class PlanoController {
   async store(req, res) {
     const schema = Yup.object().shape({
       title: Yup.string().required(),
-      duration: Yup.string()
-        .number()
+      duration: Yup.number()
         .integer()
-        .positve()
+        .positive()
         .required(),
       price: Yup.number()
         .positive()
         .required()
     });
 
-    if (!(await schema.isValid(req.body))) {
+    if (req.body.price !== undefined) {
+      var priceValidation = req.body.price.replace(",", ".");
+    }
+
+    if (!(await schema.isValid({ ...req.body, price: priceValidation }))) {
       return res
         .status(400)
         .json({ status: "error", msg: "Erro na validação" });
     }
 
-    const { title, duration, price } = req.body;
+    const { title, duration } = req.body;
 
-    await Planos.create({ title, duration, price });
-
-    return res.send({ status: "success", msg: "Plano criado com sucesso!" });
+    try {
+      await Planos.create({ title, duration, price: priceValidation });
+      return res.send({ status: "success", msg: "Plano criado com sucesso!" });
+    } catch (err) {
+      return res.send({
+        status: "error",
+        msg: "Ocorreu um erro com o servidor, tente novamente mais tarde!"
+      });
+    }
   }
 
   async index(req, res) {
@@ -95,6 +104,15 @@ class PlanoController {
         msg: "Ocorreu um erro no servidor, tente novamente mais tarde!"
       });
     }
+  }
+  async indexPlanosById(req, res) {
+    const id = req.params.id;
+
+    return res.send(
+      await Planos.findOne({
+        where: { id }
+      })
+    );
   }
 }
 

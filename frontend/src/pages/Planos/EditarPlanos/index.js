@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "~/components/Header";
 import { Link } from "react-router-dom";
 import { FaAngleLeft, FaCheck } from "react-icons/fa";
-// import api from "~/services/api";
+import api from "~/services/api";
 
 import {
   Content,
@@ -14,14 +14,40 @@ import {
   InputDuracaoPrecoMensalPrecoTotal
 } from "./styles";
 
-export default function CadastroPlanos() {
+export default function EditarPlanos() {
+  const [title, setTitle] = useState("");
+  const [duration, setDuration] = useState("");
+  const [price, setPrice] = useState("");
+  const [totalPrice, setTotalPrice] = useState("");
+
+  useEffect(() => {
+    var getUrlAndSplit = window.location.pathname.split("/");
+    var id = getUrlAndSplit[2];
+
+    async function getPlanos() {
+      const response = await api.get(`/planos/${id}`);
+
+      console.log(response);
+
+      const planos = response.data;
+
+      setTitle(planos.title);
+      setDuration(planos.duration);
+      setPrice(parseFloat(planos.price).toFixed(2));
+    }
+
+    setTotalPrice(parseFloat(price * duration).toFixed(2));
+
+    getPlanos();
+  }, [duration]);
+
   return (
     <div>
       <Header />
       <Content>
         <div>
           <div>
-            <h2>Cadastro de plano</h2>
+            <h2>Edição de plano</h2>
           </div>
           <aside>
             <Link to="/planos">
@@ -41,19 +67,32 @@ export default function CadastroPlanos() {
         <QuadroDeCadastros>
           <FormularioCadastroAlunos id="formulario">
             <label htmlFor="title">Título do plano</label>
-            <InputTitle type="text" name="title" />
+            <InputTitle
+              type="text"
+              name="title"
+              onChange={e => setTitle(e.target.value)}
+              value={title}
+            />
             <div>
               <div>
                 <label htmlFor="duracao">
                   Duração <span>(em meses)</span>
                 </label>
-                <InputDuracaoPrecoMensalPrecoTotal type="text" name="duracao" />
+                <InputDuracaoPrecoMensalPrecoTotal
+                  type="text"
+                  name="duracao"
+                  onChange={e => setDuration(e.target.value)}
+                  value={duration}
+                  // defaultValue={duration}
+                />
               </div>
               <div>
                 <label htmlFor="preco-mensal">Preço Mensal</label>
                 <InputDuracaoPrecoMensalPrecoTotal
                   type="text"
                   name="preco-mensal"
+                  onChange={e => setPrice(e.target.value)}
+                  value={price}
                 />
               </div>
 
@@ -63,6 +102,7 @@ export default function CadastroPlanos() {
                   type="text"
                   name="preco-total"
                   disabled
+                  value={totalPrice}
                 />
               </div>
             </div>

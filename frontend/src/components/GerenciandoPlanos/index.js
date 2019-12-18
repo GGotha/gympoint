@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Container, Editar, Apagar } from "./styles";
 
 import api from "~/services/api";
+import history from "~/services/history";
 
 export default function GerenciandoAlunos() {
   const [dataPlanos, setDataPlanos] = useState([]);
@@ -28,6 +29,12 @@ export default function GerenciandoAlunos() {
     getPlanos();
   }, []);
 
+  function handleEdit(planoId) {
+    history.push(`/editar-plano/${planoId}`);
+  }
+
+  async function handleDelete(planoId) {}
+
   return (
     <Container>
       <table>
@@ -47,10 +54,10 @@ export default function GerenciandoAlunos() {
               <td style={{ textAlign: "center" }}>{planos.duration}</td>
               <td style={{ textAlign: "center" }}>{planos.price}</td>
               <td width={10}>
-                <Editar to="#">editar</Editar>
+                <Editar onClick={() => handleEdit(planos.id)}>editar</Editar>
               </td>
               <td width={10}>
-                <Apagar to="#">apagar</Apagar>
+                <Apagar onClick={() => handleDelete(planos.id)}>apagar</Apagar>
               </td>
             </tr>
           ))}

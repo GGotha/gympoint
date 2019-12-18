@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Form, Input, Select } from "@rocketseat/unform";
+import { Form, Input } from "@rocketseat/unform";
 
 export const Content = styled.div`
   width: 65%;
@@ -8,6 +8,7 @@ export const Content = styled.div`
   div {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 20px;
 
     aside {
       display: flex;
@@ -41,7 +42,7 @@ export const BotaoSalvar = styled.button`
   text-transform: uppercase;
   font-weight: bold;
   border-radius: 4px;
-  height: auto;
+  height: 35px;
 
   svg {
     margin-right: 10px;
@@ -69,6 +70,7 @@ export const BotaoVoltar = styled.button`
   font-weight: bold;
   margin-right: 30px;
   border-radius: 4px;
+  height: 35px;
 
   svg {
     margin-right: 10px;
@@ -82,12 +84,12 @@ export const BotaoVoltar = styled.button`
 `;
 
 export const QuadroDeCadastros = styled.div`
-  padding: 30px 30px;
+  padding: 30px 30px 0px 30px;
   width: 100%;
   background: #fff;
 `;
 
-export const FormularioCadastroAlunos = styled(Form)`
+export const FormularioCadastroPlanos = styled(Form)`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -103,54 +105,23 @@ export const FormularioCadastroAlunos = styled(Form)`
     div {
       display: flex;
       flex-direction: column;
-      width: 24%;
+      width: 32%;
     }
   }
 `;
 
-export const InputAluno = styled(Select)`
+export const InputTitle = styled(Input)`
   padding: 10px 15px;
   font-size: 15px;
   border: 1px solid #dddddd;
   margin-bottom: 20px;
   width: 100%;
-  border-radius: 4px;
-
-  select::-ms-expand {
-    display: none; /* Hide the default arrow in Internet Explorer 10 and Internet Explorer 11 */
-  }
-
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background: transparent;
-  background: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png)
-    no-repeat right;
-  background-position-x: 98%;
 `;
 
-export const InputPlanoDtInicio = styled(Select)`
-  padding: 10px 15px;
-  font-size: 15px;
-  border: 1px solid #dddddd;
-  margin-bottom: 20px;
-  width: 100%;
-  border-radius: 4px;
-
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background: transparent;
-  background: url("http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png")
-    no-repeat right;
-  background-position-x: 95%;
-`;
-
-export const InputDtTerminoValorFinal = styled(Input)`
+export const InputDuracaoPrecoMensalPrecoTotal = styled(Input)`
   padding: 10px;
   font-size: 15px;
   border: 1px solid #dddddd;
   margin-bottom: 20px;
   width: 100%;
-  border-radius: 4px;
 `;

@@ -30,14 +30,18 @@ protectedRoutes.get("/students", StudentController.index);
 protectedRoutes.get("/students/:id", StudentController.indexStudentsById);
 protectedRoutes.put("/students/:id", StudentController.put);
 protectedRoutes.delete("/students/:id", StudentController.delete);
+
 protectedRoutes.post("/planos", PlanoController.store);
 protectedRoutes.get("/planos", PlanoController.index);
+protectedRoutes.get("/planos/:id", PlanoController.indexPlanosById);
 protectedRoutes.delete("/planos/:id", PlanoController.delete);
 protectedRoutes.put("/planos/:id", PlanoController.put);
+
 protectedRoutes.post("/matriculas", MatrículaController.store);
 protectedRoutes.get("/matriculas", MatrículaController.index);
 protectedRoutes.delete("/matriculas/:id", MatrículaController.delete);
 protectedRoutes.put("/matriculas/:id", MatrículaController.put);
+
 protectedRoutes.post(
   "/help-orders/:id/anwser",
   HelpOrdersController.anwserStudents

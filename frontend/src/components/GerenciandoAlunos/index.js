@@ -43,7 +43,7 @@ function GerenciandoAlunos(props) {
           <tr>
             <th>Nome</th>
             <th>E-mail</th>
-            <th>Idade</th>
+            <th style={{ textAlign: "center" }}>Idade</th>
           </tr>
         </thead>
         <tbody>
@@ -51,8 +51,8 @@ function GerenciandoAlunos(props) {
             ? props.students.map((student, index) => (
                 <tr key={student.id}>
                   <td>{student.name}</td>
-                  <td>{student.email}</td>
-                  <td>{student.age}</td>
+                  <td width={350}>{student.email}</td>
+                  <td style={{ textAlign: "center" }}>{student.age}</td>
                   <td width={10}>
                     <Editar onClick={() => handleEdit(student.id)}>
                       editar
@@ -68,8 +68,8 @@ function GerenciandoAlunos(props) {
             : props.results.map((result, index) => (
                 <tr key={result.id}>
                   <td>{result.name}</td>
-                  <td>{result.email}</td>
-                  <td>{result.age}</td>
+                  <td width={350}>{result.email}</td>
+                  <td style={{ textAlign: "center" }}>{result.age}</td>
                   <td width={10}>
                     <Editar onClick={() => handleEdit(result.id)}>
                       editar

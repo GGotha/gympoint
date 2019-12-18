@@ -6,6 +6,7 @@ import { pt } from "date-fns/locale";
 import { FaRegCheckCircle } from "react-icons/fa";
 
 import api from "~/services/api";
+import history from "~/services/history";
 
 export default function GerenciandoMatriculas() {
   const [dataMatriculas, setDataMatriculas] = useState([]);
@@ -37,6 +38,12 @@ export default function GerenciandoMatriculas() {
     getMatriculas();
   }, []);
 
+  function handleEdit(matriculaId) {
+    history.push(`/editar-matricula/${matriculaId}`);
+  }
+
+  async function handleDelete(matriculaId) {}
+
   return (
     <Container>
       <table>
@@ -58,10 +65,14 @@ export default function GerenciandoMatriculas() {
               <td style={{ textAlign: "center" }}>{matriculas.end_date}</td>
               <td style={{ textAlign: "center" }}>{matriculas.fl_ativo}</td>
               <td width={10}>
-                <Editar to="#">editar</Editar>
+                <Editar onClick={() => handleEdit(matriculas.id)}>
+                  editar
+                </Editar>
               </td>
               <td width={10}>
-                <Apagar to="#">apagar</Apagar>
+                <Apagar onClick={() => handleDelete(matriculas.id)}>
+                  apagar
+                </Apagar>
               </td>
             </tr>
           ))}
