@@ -4,45 +4,41 @@ import { Container, Editar, Apagar } from "./styles";
 import { parseISO, isBefore, format } from "date-fns";
 import { pt } from "date-fns/locale";
 import { FaRegCheckCircle } from "react-icons/fa";
+import { toast } from "react-toastify";
+import { withRouter } from "react-router-dom";
 
 import api from "~/services/api";
 import history from "~/services/history";
+import { connect, useDispatch } from "react-redux";
 
-export default function GerenciandoMatriculas() {
-  const [dataMatriculas, setDataMatriculas] = useState([]);
-
-  useEffect(() => {
-    async function getMatriculas() {
-      const response = await api.get("matriculas");
-
-      const dataFormatted = response.data.map(data => ({
-        ...data,
-        fl_ativo: isBefore(parseISO(data.end_date), new Date()) ? (
-          <FaRegCheckCircle style={{ color: "#DDDDDD" }} />
-        ) : (
-          <FaRegCheckCircle style={{ color: "#42CB59" }} />
-        ),
-        start_date: format(
-          parseISO(data.start_date),
-          "dd 'de' MMMM 'de' yyyy",
-          { locale: pt }
-        ),
-        end_date: format(parseISO(data.end_date), "dd 'de' MMMM 'de' yyyy", {
-          locale: pt
-        })
-      }));
-
-      setDataMatriculas(dataFormatted);
-    }
-
-    getMatriculas();
-  }, []);
+function GerenciandoMatriculas(props) {
+  const dispatch = useDispatch();
 
   function handleEdit(matriculaId) {
     history.push(`/editar-matricula/${matriculaId}`);
   }
 
-  async function handleDelete(matriculaId) {}
+  async function handleDelete(matriculaId) {
+    try {
+      const response = await api.delete(`matriculas/${matriculaId}`);
+
+      if (response.data.status === "error") {
+        return toast.error(
+          "Ocorreu um erro no servidor, tente novamente mais tarde!"
+        );
+      }
+
+      dispatch({ type: "matricula/REMOVE", id: matriculaId });
+
+      toast.success("Matricula removida com sucesso!");
+    } catch (err) {
+      toast.error(
+        "Ocorreu um erro com o servidor, tente novamente mais tarde!"
+      );
+    }
+  }
+
+  const { matriculas } = props;
 
   return (
     <Container>
@@ -57,13 +53,19 @@ export default function GerenciandoMatriculas() {
           </tr>
         </thead>
         <tbody>
-          {dataMatriculas.map((matriculas, index) => (
+          {matriculas.map((matriculas, index) => (
             <tr key={matriculas.id} style={{ borderBottom: "1px solid #ddd" }}>
               <td>{matriculas.Student.name}</td>
               <td style={{ textAlign: "center" }}>{matriculas.Plano.title}</td>
               <td style={{ textAlign: "center" }}>{matriculas.start_date}</td>
               <td style={{ textAlign: "center" }}>{matriculas.end_date}</td>
-              <td style={{ textAlign: "center" }}>{matriculas.fl_ativo}</td>
+              <td style={{ textAlign: "center" }}>
+                {matriculas.fl_ativo === 0 ? (
+                  <FaRegCheckCircle style={{ color: "#DDDDDD" }} />
+                ) : (
+                  <FaRegCheckCircle style={{ color: "#42CB59" }} />
+                )}
+              </td>
               <td width={10}>
                 <Editar onClick={() => handleEdit(matriculas.id)}>
                   editar
@@ -81,3 +83,9 @@ export default function GerenciandoMatriculas() {
     </Container>
   );
 }
+
+export default withRouter(
+  connect(state => ({
+    matriculas: state.Reducers.matriculas
+  }))(GerenciandoMatriculas)
+);

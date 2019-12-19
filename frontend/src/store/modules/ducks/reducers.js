@@ -10,7 +10,15 @@ export const Types = {
   REQUEST_LISTSTUDENTS: "list_students/REQUEST",
   SUCCESS_LISTSTUDENTS: "list_students/SUCCESS",
   FAILURE_LISTSTUDENTS: "list_students/FAILURE",
-  REMOVE_STUDENT: "student/REMOVE"
+  REMOVE_STUDENT: "student/REMOVE",
+  REQUEST_LISTPLANOS: "list_planos/REQUEST",
+  SUCCESS_LISTPLANOS: "list_planos/SUCCESS",
+  FAILURE_LISTPLANOS: "list_planos/FAILURE",
+  REMOVE_PLANO: "plano/REMOVE",
+  REQUEST_LISTMATRICULAS: "list_matriculas/REQUEST",
+  SUCCESS_LISTMATRICULAS: "list_matriculas/SUCCESS",
+  FAILURE_LISTMATRICULAS: "list_matriculas/FAILURE",
+  REMOVE_MATRICULA: "matricula/REMOVE"
 };
 
 const INITIAL_STATE = {
@@ -18,12 +26,15 @@ const INITIAL_STATE = {
   signed: false,
   loading: false,
   profile: {},
-  students: []
+  students: [],
+  planos: [],
+  matriculas: []
 };
 
 //REDUCERS
 
 export default function reducers(state = INITIAL_STATE, action) {
+  console.log(action);
   switch (action.type) {
     case Types.REQUEST_AUTH:
       return produce(state, draft => {
@@ -56,6 +67,34 @@ export default function reducers(state = INITIAL_STATE, action) {
 
         if (productIndex >= 0) {
           draft.students.splice(productIndex, 1);
+        }
+      });
+
+    case Types.SUCCESS_LISTPLANOS:
+      return produce(state, draft => {
+        draft.planos = action.planos;
+      });
+    case Types.REMOVE_PLANO:
+      return produce(state, draft => {
+        const productIndex = draft.planos.findIndex(p => p.id === action.id);
+
+        if (productIndex >= 0) {
+          draft.planos.splice(productIndex, 1);
+        }
+      });
+
+    case Types.SUCCESS_LISTMATRICULAS:
+      return produce(state, draft => {
+        draft.matriculas = action.matriculas;
+      });
+    case Types.REMOVE_MATRICULA:
+      return produce(state, draft => {
+        const productIndex = draft.matriculas.findIndex(
+          p => p.id === action.id
+        );
+
+        if (productIndex >= 0) {
+          draft.matriculas.splice(productIndex, 1);
         }
       });
 
@@ -96,5 +135,31 @@ export const Creators = {
 
   listStudentsFailure: () => ({
     type: Types.FAILURE_LISTSTUDENTS
+  }),
+
+  listPlanosRequest: () => ({
+    type: Types.REQUEST_LISTPLANOS
+  }),
+
+  listPlanosSuccess: planos => ({
+    type: Types.SUCCESS_LISTPLANOS,
+    planos
+  }),
+
+  listPlanosFailure: () => ({
+    type: Types.FAILURE_LISTPLANOS
+  }),
+
+  listMatriculasRequest: () => ({
+    type: Types.REQUEST_LISTMATRICULAS
+  }),
+
+  listMatriculasSuccess: matriculas => ({
+    type: Types.SUCCESS_LISTMATRICULAS,
+    matriculas
+  }),
+
+  listMatriculasFailure: () => ({
+    type: Types.FAILURE_LISTMATRICULAS
   })
 };

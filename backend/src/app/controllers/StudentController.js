@@ -21,10 +21,22 @@ class StudentController {
         .positive()
     });
 
-    if (!(await schema.isValid(req.body))) {
-      return res
-        .status(400)
-        .json({ status: "error", msg: "Erro na validação" });
+    if (req.body.peso !== undefined) {
+      var pesoValidation = req.body.peso.replace(",", ".");
+    }
+
+    if (req.body.altura !== undefined) {
+      var alturaValidation = req.body.altura.replace(",", ".");
+    }
+
+    if (
+      !(await schema.isValid({
+        ...req.body,
+        peso: pesoValidation,
+        altura: alturaValidation
+      }))
+    ) {
+      return res.json({ status: "error", msg: "Falha na validação" });
     }
 
     const {
@@ -44,17 +56,15 @@ class StudentController {
           where: { email }
         }))
       ) {
-        return res
-          .status(400)
-          .json({ status: "error", msg: "Email já cadastrado" });
+        return res.json({ status: "error", msg: "Email já cadastrado" });
       }
 
       await Students.create({
         name,
         email,
         age,
-        weight,
-        height
+        weight: pesoValidation,
+        height: alturaValidation
       });
 
       return res.send({
@@ -107,28 +117,54 @@ class StudentController {
         .positive()
     });
 
-    if (!(await schema.isValid(req.body))) {
-      return res
-        .status(400)
-        .json({ status: "error", msg: "Erro na validação" });
+    if (req.body.peso !== undefined) {
+      var pesoValidation = req.body.peso.replace(",", ".");
+    }
+
+    if (req.body.altura !== undefined) {
+      var alturaValidation = req.body.altura.replace(",", ".");
+    }
+
+    if (
+      !(await schema.isValid({
+        ...req.body,
+        peso: pesoValidation,
+        altura: alturaValidation
+      }))
+    ) {
+      return res.json({ status: "error", msg: "Falha na validação" });
     }
 
     const { nome, email, idade, peso, altura } = req.body;
 
-    const findStudentById = await Students.findOne({ where: { id } });
+    try {
+      const findStudentById = await Students.findOne({ where: { id } });
 
-    findStudentById.update({
-      name: nome,
-      email,
-      age: idade,
-      weight: peso,
-      height: altura
-    });
+      if (findStudentById === null) {
+        return res.send({
+          status: "error",
+          msg: "Não é possível alterar um aluno inexistente"
+        });
+      }
 
-    return res.send({
-      status: "success",
-      msg: "Aluno alterado com sucesso!"
-    });
+      findStudentById.update({
+        name: nome,
+        email,
+        age: idade,
+        weight: pesoValidation,
+        height: alturaValidation
+      });
+
+      return res.send({
+        status: "success",
+        msg: "Aluno alterado com sucesso!"
+      });
+    } catch (err) {
+      return res.send({
+        status: "error",
+        msg: "Ocorreu um erro com o servidor, tente novamente mais tarde!"
+      });
+    }
   }
 
   async delete(req, res) {

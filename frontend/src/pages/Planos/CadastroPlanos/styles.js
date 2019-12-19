@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Form, Input } from "@rocketseat/unform";
+import CurrencyFormat from "react-currency-format";
 
 export const Content = styled.div`
   width: 65%;
@@ -118,7 +119,7 @@ export const InputTitle = styled(Input)`
   width: 100%;
 `;
 
-export const InputDuracaoPrecoMensalPrecoTotal = styled(Input)`
+export const InputDuracaoPrecoMensalPrecoTotal = styled(CurrencyFormat)`
   padding: 10px;
   font-size: 15px;
   border: 1px solid #dddddd;

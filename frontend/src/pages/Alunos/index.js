@@ -7,7 +7,7 @@ import { Content, BotaoCadastrar } from "./styles";
 import GerenciandoAlunos from "~/components/GerenciandoAlunos";
 import { FaPlus } from "react-icons/fa";
 import { connect, useDispatch } from "react-redux";
-import { Creators } from "../../store/modules/ducks/reducers";
+import { Creators } from "~/store/modules/ducks/reducers";
 
 function Alunos(props) {
   const [results, setResults] = useState(1);

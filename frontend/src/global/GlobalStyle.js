@@ -19,6 +19,22 @@ const GlobalStyle = createGlobalStyle`
   a {
     text-decoration: none;
   }
+
+  #input-select {
+    /* height: 50px; */
+    /* width: 100%; */
+
+    div {
+      /* width: 100%; */
+      /* height: 45px; */
+      /* padding: 5px 0px 0px 5px; */
+
+      div {
+        /* border: 1px solid; */
+
+      }
+    }
+  }
 `;
 
 export default GlobalStyle;

@@ -1,39 +1,39 @@
 import React, { useState, useEffect } from "react";
-
+import { withRouter } from "react-router-dom";
 import { Container, Editar, Apagar } from "./styles";
-
+import { connect, useDispatch } from "react-redux";
 import api from "~/services/api";
 import history from "~/services/history";
+import { toast } from "react-toastify";
 
-export default function GerenciandoAlunos() {
-  const [dataPlanos, setDataPlanos] = useState([]);
-
-  useEffect(() => {
-    async function getPlanos() {
-      const response = await api.get("/planos");
-
-      const dataFormatted = response.data.map(data => ({
-        ...data,
-        price:
-          "R$" +
-          parseFloat(data.price)
-            .toFixed(2)
-            .replace(".", ","),
-        duration:
-          data.duration > 1 ? data.duration + " meses" : data.duration + " mês"
-      }));
-
-      setDataPlanos(dataFormatted);
-    }
-
-    getPlanos();
-  }, []);
+function GerenciandoPlanos(props) {
+  const dispatch = useDispatch();
 
   function handleEdit(planoId) {
     history.push(`/editar-plano/${planoId}`);
   }
 
-  async function handleDelete(planoId) {}
+  async function handleDelete(planoId) {
+    try {
+      const response = await api.delete(`planos/${planoId}`);
+
+      if (response.data.status === "error") {
+        return toast.error(
+          "Ocorreu um erro no servidor, tente novamente mais tarde!"
+        );
+      }
+
+      dispatch({ type: "plano/REMOVE", id: planoId });
+
+      toast.success("Plano removido com sucesso!");
+    } catch (err) {
+      toast.error(
+        "Ocorreu um erro com o servidor, tente novamente mais tarde!"
+      );
+    }
+  }
+
+  const { planos } = props;
 
   return (
     <Container>
@@ -48,7 +48,7 @@ export default function GerenciandoAlunos() {
           </tr>
         </thead>
         <tbody>
-          {dataPlanos.map((planos, index) => (
+          {planos.map((planos, index) => (
             <tr key={planos.id} style={{ borderBottom: "1px solid #ddd" }}>
               <td>{planos.title}</td>
               <td style={{ textAlign: "center" }}>{planos.duration}</td>
@@ -66,3 +66,9 @@ export default function GerenciandoAlunos() {
     </Container>
   );
 }
+
+export default withRouter(
+  connect(state => ({
+    planos: state.Reducers.planos
+  }))(GerenciandoPlanos)
+);

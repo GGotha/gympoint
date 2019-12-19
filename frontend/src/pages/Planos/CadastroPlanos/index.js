@@ -18,9 +18,9 @@ import {
 
 export default function CadastroPlanos() {
   const [title, setTitle] = useState("");
-  const [duration, setDuration] = useState("");
-  const [price, setPrice] = useState("");
-  const [totalPrice, setTotalPrice] = useState("");
+  const [duration, setDuration] = useState(0);
+  const [price, setPrice] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   const dadosCadastro = {
     title,
@@ -38,14 +38,11 @@ export default function CadastroPlanos() {
     if (response.data.status === "success") {
       toast.success(response.data.msg);
     }
-
-    // dispatch(Creators.listStudentsRequest());
-
-    // console.log("hey");
   }
 
   useEffect(() => {
-    setTotalPrice(parseFloat(price * duration).toFixed(2));
+    setTotalPrice(price * duration);
+    // console.log(price.replace(",", ".")).split("R$")[1];
   }, [duration, price]);
 
   return (
@@ -97,6 +94,11 @@ export default function CadastroPlanos() {
                   type="text"
                   name="price"
                   onChange={e => setPrice(e.target.value)}
+                  prefix="R$"
+                  thousandSeparator={"."}
+                  decimalSeparator={","}
+                  fixedDecimalScale={true}
+                  decimalScale={2}
                 />
               </div>
 
@@ -106,8 +108,12 @@ export default function CadastroPlanos() {
                   type="text"
                   name="totalPrice"
                   disabled
-                  onChange={e => setTotalPrice(e.target.value)}
-                  value={"R$" + totalPrice}
+                  value={totalPrice}
+                  prefix="R$"
+                  thousandSeparator={"."}
+                  decimalSeparator={","}
+                  fixedDecimalScale={true}
+                  decimalScale={2}
                 />
               </div>
             </div>

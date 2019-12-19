@@ -19,9 +19,7 @@ class MatrículaController {
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res
-        .status(400)
-        .json({ status: "error", msg: "Erro na validação" });
+      return res.json({ status: "error", msg: "Falha na validação" });
     }
 
     const { student_id, plan_id, start_date } = req.body;
@@ -139,9 +137,7 @@ class MatrículaController {
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res
-        .status(400)
-        .json({ status: "error", msg: "Erro na validação" });
+      return res.json({ status: "error", msg: "Falha na validação" });
     }
 
     const { student_id, plan_id, start_date } = req.body;

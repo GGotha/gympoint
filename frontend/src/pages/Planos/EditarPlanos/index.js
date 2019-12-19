@@ -3,6 +3,7 @@ import Header from "~/components/Header";
 import { Link } from "react-router-dom";
 import { FaAngleLeft, FaCheck } from "react-icons/fa";
 import api from "~/services/api";
+import { toast } from "react-toastify";
 
 import {
   Content,
@@ -27,19 +28,44 @@ export default function EditarPlanos() {
     async function getPlanos() {
       const response = await api.get(`/planos/${id}`);
 
-      console.log(response);
-
       const planos = response.data;
 
       setTitle(planos.title);
       setDuration(planos.duration);
-      setPrice(parseFloat(planos.price).toFixed(2));
+      setPrice(planos.price);
     }
 
-    setTotalPrice(parseFloat(price * duration).toFixed(2));
+    setTotalPrice(price * duration);
 
     getPlanos();
-  }, [duration]);
+  }, []);
+
+  const dadosEdicao = {
+    title,
+    duration,
+    price
+  };
+
+  async function handleSubmit() {
+    var getUrlAndSplit = window.location.pathname.split("/");
+    var id = getUrlAndSplit[2];
+
+    try {
+      const response = await api.put(`/planos/${id}`, dadosEdicao);
+
+      if (response.data.status === "success") {
+        toast.success(response.data.msg);
+      }
+
+      if (response.data.status === "error") {
+        toast.error(response.data.msg);
+      }
+    } catch (err) {
+      toast.error(
+        "Ocorreu um erro com o servidor, tente novamente mais tarde!"
+      );
+    }
+  }
 
   return (
     <div>
@@ -56,16 +82,17 @@ export default function EditarPlanos() {
                 Voltar
               </BotaoVoltar>
             </Link>
-            <Link to="#">
-              <BotaoSalvar type="submit">
-                <FaCheck />
-                Salvar
-              </BotaoSalvar>
-            </Link>
+            <BotaoSalvar type="submit" form="formularioEditarPlanos">
+              <FaCheck />
+              Salvar
+            </BotaoSalvar>
           </aside>
         </div>
         <QuadroDeCadastros>
-          <FormularioCadastroAlunos id="formulario">
+          <FormularioCadastroAlunos
+            id="formularioEditarPlanos"
+            onSubmit={() => handleSubmit()}
+          >
             <label htmlFor="title">Título do plano</label>
             <InputTitle
               type="text"
@@ -81,9 +108,8 @@ export default function EditarPlanos() {
                 <InputDuracaoPrecoMensalPrecoTotal
                   type="text"
                   name="duracao"
-                  onChange={e => setDuration(e.target.value)}
                   value={duration}
-                  // defaultValue={duration}
+                  onChange={e => setDuration(e.target.value)}
                 />
               </div>
               <div>
@@ -93,6 +119,11 @@ export default function EditarPlanos() {
                   name="preco-mensal"
                   onChange={e => setPrice(e.target.value)}
                   value={price}
+                  prefix="R$"
+                  thousandSeparator={"."}
+                  decimalSeparator={","}
+                  fixedDecimalScale={true}
+                  decimalScale={2}
                 />
               </div>
 
@@ -103,6 +134,11 @@ export default function EditarPlanos() {
                   name="preco-total"
                   disabled
                   value={totalPrice}
+                  prefix="R$"
+                  thousandSeparator={"."}
+                  decimalSeparator={","}
+                  fixedDecimalScale={true}
+                  decimalScale={2}
                 />
               </div>
             </div>

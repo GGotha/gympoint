@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { Content, BotaoCadastrar } from "./styles";
 import GerenciandoPlanos from "~/components/GerenciandoPlanos";
@@ -6,7 +6,20 @@ import Header from "~/components/Header";
 import { FaPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
+import { connect, useDispatch } from "react-redux";
+import { Creators } from "~/store/modules/ducks/reducers";
+
 export default function Planos() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    async function searchPlanos() {
+      dispatch(Creators.listPlanosRequest());
+    }
+
+    searchPlanos();
+  }, []);
+
   return (
     <div>
       <Header />

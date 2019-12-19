@@ -16,12 +16,14 @@ class PlanoController {
 
     if (req.body.price !== undefined) {
       var priceValidation = req.body.price.replace(",", ".");
+
+      if (priceValidation.split("R$").length === 2) {
+        var priceValidation = priceValidation.split("R$")[1];
+      }
     }
 
     if (!(await schema.isValid({ ...req.body, price: priceValidation }))) {
-      return res
-        .status(400)
-        .json({ status: "error", msg: "Erro na validação" });
+      return res.json({ status: "error", msg: "Falha na validação" });
     }
 
     const { title, duration } = req.body;
@@ -71,20 +73,25 @@ class PlanoController {
 
     const schema = Yup.object().shape({
       title: Yup.string().required(),
-      duration: Yup.string()
-        .number()
+      duration: Yup.number()
         .integer()
-        .positve()
+        .positive()
         .required(),
       price: Yup.number()
         .positive()
         .required()
     });
 
-    if (!(await schema.isValid(req.body))) {
-      return res
-        .status(400)
-        .json({ status: "error", msg: "Erro na validação" });
+    if (req.body.price !== undefined) {
+      var priceValidation = req.body.price.replace(",", ".");
+
+      if (priceValidation.split("R$").length === 2) {
+        var priceValidation = priceValidation.split("R$")[1];
+      }
+    }
+
+    if (!(await schema.isValid({ ...req.body, price: priceValidation }))) {
+      return res.json({ status: "error", msg: "Falha na validação" });
     }
 
     const { title, duration, price } = req.body;
@@ -92,7 +99,7 @@ class PlanoController {
     try {
       const findForUpdate = await Planos.findOne({ where: { id } });
 
-      await findForUpdate.update({ title, duration, price });
+      await findForUpdate.update({ title, duration, price: priceValidation });
 
       return res.send({
         status: "success",

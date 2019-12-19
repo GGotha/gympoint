@@ -7,6 +7,7 @@ import Signin from "./pages/Signin";
 import Alunos from "./pages/Alunos";
 import Planos from "./pages/Planos";
 import Matriculas from "./pages/Matriculas";
+import Teste from "./pages/Teste";
 import PedidosDeAuxilio from "./pages/PedidosDeAuxilio";
 import CadastroAlunos from "./pages/Alunos/CadastroAlunos";
 import CadastroPlanos from "./pages/Planos/CadastroPlanos";
@@ -50,6 +51,7 @@ export default function Routes() {
           component={EditarMatriculas}
           isPrivate
         />
+        <Route path="/teste" component={Teste} isPrivate />
       </Switch>
     </Fragment>
   );

@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Form, Input, Select } from "@rocketseat/unform";
+import AsyncSelect from "react-select/async";
 
 export const Content = styled.div`
   width: 65%;
@@ -109,26 +110,7 @@ export const FormularioCadastroAlunos = styled(Form)`
   }
 `;
 
-export const InputAluno = styled(Select)`
-  padding: 10px 15px;
-  font-size: 15px;
-  border: 1px solid #dddddd;
-  margin-bottom: 20px;
-  width: 100%;
-  border-radius: 4px;
-
-  select::-ms-expand {
-    display: none; /* Hide the default arrow in Internet Explorer 10 and Internet Explorer 11 */
-  }
-
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background: transparent;
-  background: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png)
-    no-repeat right;
-  background-position-x: 98%;
-`;
+export const InputAluno = styled(AsyncSelect)``;
 
 export const InputPlanoDtInicio = styled(Select)`
   padding: 10px 15px;

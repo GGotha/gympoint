@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import Header from "~/components/Header";
 import { Link } from "react-router-dom";
 import { FaAngleLeft, FaCheck } from "react-icons/fa";
-// import api from "~/services/api";
+import AsyncSelect from "react-select/async";
+import api from "~/services/api";
 
 import {
   Content,
@@ -21,6 +22,19 @@ export default function CadastroMatriculas() {
     { id: "node", title: "NodeJS" },
     { id: "rn", title: "React Native" }
   ];
+
+  const filterColors = inputValue => {
+    return options.filter(i =>
+      i.title.toLowerCase().includes(inputValue.toLowerCase())
+    );
+  };
+
+  const promiseOptions = inputValue =>
+    new Promise(resolve => {
+      setTimeout(() => {
+        resolve(filterColors(inputValue));
+      }, 1000);
+    });
 
   return (
     <div>
@@ -49,10 +63,10 @@ export default function CadastroMatriculas() {
           <FormularioCadastroAlunos id="formulario">
             <label htmlFor="title">Aluno</label>
             <InputAluno
-              id="teste"
-              name="title"
-              options={options}
-              placeholder="Buscar aluno"
+              id="input-select"
+              cacheOptions
+              defaultOptions
+              loadOptions={promiseOptions}
             />
             <div>
               <div>

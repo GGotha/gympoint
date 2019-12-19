@@ -11,9 +11,7 @@ class HelpOrdersController {
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res
-        .status(400)
-        .json({ status: "error", msg: "Erro na validação" });
+      return res.json({ status: "error", msg: "Falha na validação" });
     }
 
     const { question } = req.body;
@@ -75,9 +73,7 @@ class HelpOrdersController {
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res
-        .status(400)
-        .json({ status: "error", msg: "Erro na validação" });
+      return res.json({ status: "error", msg: "Falha na validação" });
     }
 
     const { answer } = req.body;

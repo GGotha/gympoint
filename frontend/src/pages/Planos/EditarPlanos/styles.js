@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Form, Input } from "@rocketseat/unform";
+import CurrencyFormat from "react-currency-format";
 
 export const Content = styled.div`
   width: 65%;
@@ -42,7 +43,7 @@ export const BotaoSalvar = styled.button`
   text-transform: uppercase;
   font-weight: bold;
   border-radius: 4px;
-  height: auto;
+  height: 35px;
 
   svg {
     margin-right: 10px;
@@ -70,6 +71,7 @@ export const BotaoVoltar = styled.button`
   font-weight: bold;
   margin-right: 30px;
   border-radius: 4px;
+  height: 35px;
 
   svg {
     margin-right: 10px;
@@ -117,7 +119,7 @@ export const InputTitle = styled(Input)`
   width: 100%;
 `;
 
-export const InputDuracaoPrecoMensalPrecoTotal = styled(Input)`
+export const InputDuracaoPrecoMensalPrecoTotal = styled(CurrencyFormat)`
   padding: 10px;
   font-size: 15px;
   border: 1px solid #dddddd;
