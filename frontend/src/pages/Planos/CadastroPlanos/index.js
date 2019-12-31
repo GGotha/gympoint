@@ -19,7 +19,7 @@ import {
 export default function CadastroPlanos() {
   const [title, setTitle] = useState("");
   const [duration, setDuration] = useState(0);
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState("R$0,00");
   const [totalPrice, setTotalPrice] = useState(0);
 
   const dadosCadastro = {
@@ -41,8 +41,7 @@ export default function CadastroPlanos() {
   }
 
   useEffect(() => {
-    setTotalPrice(price * duration);
-    // console.log(price.replace(",", ".")).split("R$")[1];
+    setTotalPrice(parseFloat(price.replace("R$", "")) * duration);
   }, [duration, price]);
 
   return (
@@ -94,11 +93,6 @@ export default function CadastroPlanos() {
                   type="text"
                   name="price"
                   onChange={e => setPrice(e.target.value)}
-                  prefix="R$"
-                  thousandSeparator={"."}
-                  decimalSeparator={","}
-                  fixedDecimalScale={true}
-                  decimalScale={2}
                 />
               </div>
 

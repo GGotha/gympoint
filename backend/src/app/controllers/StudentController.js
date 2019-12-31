@@ -147,6 +147,17 @@ class StudentController {
         });
       }
 
+      // if (
+      //   (await Users.findOne({
+      //     where: { email }
+      //   })) ||
+      //   (await Students.findOne({
+      //     where: { email }
+      //   }))
+      // ) {
+      //   return res.json({ status: "error", msg: "Email já cadastrado" });
+      // }
+
       findStudentById.update({
         name: nome,
         email,

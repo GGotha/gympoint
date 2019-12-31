@@ -18,7 +18,11 @@ export const Types = {
   REQUEST_LISTMATRICULAS: "list_matriculas/REQUEST",
   SUCCESS_LISTMATRICULAS: "list_matriculas/SUCCESS",
   FAILURE_LISTMATRICULAS: "list_matriculas/FAILURE",
-  REMOVE_MATRICULA: "matricula/REMOVE"
+  REMOVE_MATRICULA: "matricula/REMOVE",
+  REQUEST_LISTPLANOSDEAUXILIO: "list_planosdeauxilio/REQUEST",
+  SUCCESS_LISTPLANOSDEAUXILIO: "list_planosdeauxilio/SUCCESS",
+  FAILURE_LISTPLANOSDEAUXILIO: "list_planosdeauxilio/FAILURE",
+  REMOVE_PLANOSDEAUXILIO: "planosdeauxilio/REMOVE"
 };
 
 const INITIAL_STATE = {
@@ -28,13 +32,13 @@ const INITIAL_STATE = {
   profile: {},
   students: [],
   planos: [],
-  matriculas: []
+  matriculas: [],
+  planosDeAuxilio: []
 };
 
 //REDUCERS
 
 export default function reducers(state = INITIAL_STATE, action) {
-  console.log(action);
   switch (action.type) {
     case Types.REQUEST_AUTH:
       return produce(state, draft => {
@@ -57,6 +61,7 @@ export default function reducers(state = INITIAL_STATE, action) {
         draft.signed = false;
         draft.profile = null;
       });
+
     case Types.SUCCESS_LISTSTUDENTS:
       return produce(state, draft => {
         draft.students = action.students;
@@ -95,6 +100,21 @@ export default function reducers(state = INITIAL_STATE, action) {
 
         if (productIndex >= 0) {
           draft.matriculas.splice(productIndex, 1);
+        }
+      });
+
+    case Types.SUCCESS_LISTPLANOSDEAUXILIO:
+      return produce(state, draft => {
+        draft.planosDeAuxilio = action.helpOrders;
+      });
+    case Types.REMOVE_PLANOSDEAUXILIO:
+      return produce(state, draft => {
+        const productIndex = draft.planosDeAuxilio.findIndex(
+          p => p.id === action.id
+        );
+
+        if (productIndex >= 0) {
+          draft.planosDeAuxilio.splice(productIndex, 1);
         }
       });
 
@@ -161,5 +181,18 @@ export const Creators = {
 
   listMatriculasFailure: () => ({
     type: Types.FAILURE_LISTMATRICULAS
+  }),
+
+  listPlanosDeAuxilioRequest: () => ({
+    type: Types.REQUEST_LISTPLANOSDEAUXILIO
+  }),
+
+  listPlanosDeAuxilioSuccess: helpOrders => ({
+    type: Types.SUCCESS_LISTPLANOSDEAUXILIO,
+    helpOrders
+  }),
+
+  listPlanosDeAuxilioFailure: () => ({
+    type: Types.FAILURE_LISTPLANOSDEAUXILIO
   })
 };

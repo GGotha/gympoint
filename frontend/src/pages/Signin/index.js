@@ -30,6 +30,7 @@ export default function Signin() {
             type="email"
             name="email"
             placeholder="exemplo@email.com"
+            autoFocus
           />
           <label>Sua senha</label>
           <InputUnform

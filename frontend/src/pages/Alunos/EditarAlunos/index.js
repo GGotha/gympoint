@@ -35,7 +35,7 @@ export default function EditarAlunos() {
       setEmail(dados.email);
       setIdade(dados.age);
       setPeso(parseFloat(dados.weight).toFixed(2));
-      setAltura(dados.height);
+      setAltura(parseFloat(dados.height).toFixed(2));
     }
 
     getStudent();

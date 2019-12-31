@@ -54,7 +54,7 @@ class HelpOrdersController {
   async indexUnanswered(req, res) {
     return res.send(
       await HelpOrders.findAll({
-        where: { answer_at: null },
+        where: { answer: null },
         include: [
           {
             model: Students,
@@ -65,11 +65,11 @@ class HelpOrdersController {
     );
   }
 
-  async anwserStudents(req, res) {
+  async answerStudents(req, res) {
     const id = req.params.id;
 
     const schema = Yup.object().shape({
-      question: Yup.string().required()
+      answer: Yup.string().required()
     });
 
     if (!(await schema.isValid(req.body))) {
@@ -109,6 +109,15 @@ Resposta: ${answer}
         msg: "Ocorreu um erro no servidor, tente novamente mais tarde!"
       });
     }
+  }
+  async indexHelpOrdersById(req, res) {
+    const id = req.params.id;
+
+    return res.send(
+      await HelpOrders.findOne({
+        where: { id }
+      })
+    );
   }
 }
 

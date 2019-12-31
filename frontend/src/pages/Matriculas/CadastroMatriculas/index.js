@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Header from "~/components/Header";
 import { Link } from "react-router-dom";
 import { FaAngleLeft, FaCheck } from "react-icons/fa";
-import AsyncSelect from "react-select/async";
+import { parseISO, format, addDays, addMonths, addMinutes } from "date-fns";
+import pt from "date-fns/locale/pt";
 import api from "~/services/api";
+import { toast } from "react-toastify";
 
 import {
   Content,
@@ -12,29 +14,97 @@ import {
   QuadroDeCadastros,
   FormularioCadastroAlunos,
   InputAluno,
-  InputDtTerminoValorFinal,
-  InputPlanoDtInicio
+  InputDtTermino,
+  InputPlanoDtInicio,
+  InputValorFinal
 } from "./styles";
 
 export default function CadastroMatriculas() {
-  const options = [
-    { id: "react", title: "ReactJS" },
-    { id: "node", title: "NodeJS" },
-    { id: "rn", title: "React Native" }
-  ];
+  const [students, setStudents] = useState([]);
+  const [planos, setPlanos] = useState([]);
+  const [dates, setDates] = useState([]);
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [duration, setDuration] = useState([]);
+  const [durationPro, setDurationPro] = useState([]);
+  const [endDate, setEndDate] = useState("");
+  const [finalPrice, setFinalPrice] = useState("");
 
-  const filterColors = inputValue => {
-    return options.filter(i =>
-      i.title.toLowerCase().includes(inputValue.toLowerCase())
-    );
-  };
+  const dateFormatted = useMemo(
+    () => format(currentDate, "dd/MM/yyyy", { locale: pt }),
+    [currentDate]
+  );
 
-  const promiseOptions = inputValue =>
-    new Promise(resolve => {
-      setTimeout(() => {
-        resolve(filterColors(inputValue));
-      }, 1000);
-    });
+  useEffect(() => {
+    async function getStudents() {
+      const response = await api.get("students");
+
+      const data = response.data.map(students => ({
+        ...students,
+        title: students.name
+      }));
+
+      setStudents(data);
+    }
+
+    async function getPlanos() {
+      const response = await api.get("planos");
+
+      const dataDuration = response.data.map(duration => ({
+        id: duration.id,
+        price: duration.price,
+        duration: duration.duration
+      }));
+
+      setDuration(dataDuration);
+
+      setPlanos(response.data);
+    }
+
+    async function getCurrentDate() {
+      const dates = [{ id: 1, title: dateFormatted, value: new Date() }];
+
+      setDates(dates);
+    }
+
+    getStudents();
+    getPlanos();
+    getCurrentDate();
+  }, []);
+
+  useEffect(() => {
+    setEndDate(format(addMonths(currentDate, durationPro), "dd/MM/yyyy"));
+  }, [durationPro]);
+
+  async function handleSubmit(data) {
+    const dados = {
+      student_id: data.aluno,
+      plan_id: data.plano,
+      start_date: addMinutes(currentDate, 1)
+    };
+
+    try {
+      const response = await api.post("matriculas", dados);
+
+      if (response.data.status === "error") {
+        return toast.error(
+          "Ocorreu um erro no servidor, tente novamente mais tarde!"
+        );
+      }
+
+      toast.success("Matrícula adicionada com sucesso!");
+    } catch (err) {
+      toast.error(
+        "Ocorreu um erro com o servidor, tente novamente mais tarde!"
+      );
+    }
+  }
+
+  function teste(e) {
+    let teste = duration.find(p => p.id == e.target.value);
+
+    setDurationPro(teste.duration);
+    setFinalPrice(teste.price);
+  }
 
   return (
     <div>
@@ -51,55 +121,65 @@ export default function CadastroMatriculas() {
                 Voltar
               </BotaoVoltar>
             </Link>
-            <Link to="#">
-              <BotaoSalvar type="submit">
-                <FaCheck />
-                Salvar
-              </BotaoSalvar>
-            </Link>
+            <BotaoSalvar type="submit" form="formularioCadastroMatriculas">
+              <FaCheck />
+              Salvar
+            </BotaoSalvar>
           </aside>
         </div>
         <QuadroDeCadastros>
-          <FormularioCadastroAlunos id="formulario">
+          <FormularioCadastroAlunos
+            id="formularioCadastroMatriculas"
+            onSubmit={handleSubmit}
+          >
             <label htmlFor="title">Aluno</label>
             <InputAluno
               id="input-select"
-              cacheOptions
-              defaultOptions
-              loadOptions={promiseOptions}
+              name="aluno"
+              placeholder="Selecione o aluno"
+              options={students}
             />
             <div>
               <div>
                 <label htmlFor="duracao">Plano</label>
                 <InputPlanoDtInicio
+                  onChange={e => teste(e)}
                   name="plano"
                   placeholder="Selecione o plano"
-                  options={options}
+                  // onChange={e => setPlanos(e.target.value)}
+                  options={planos}
                 />
               </div>
               <div>
                 <label htmlFor="preco-mensal">Data de ínicio</label>
                 <InputPlanoDtInicio
-                  name="preco-mensal"
+                  name="data-inicio"
                   placeholder="Escolha a data"
-                  options={options}
+                  options={dates}
                 />
               </div>
 
               <div>
                 <label htmlFor="preco-total">Data de término</label>
-                <InputDtTerminoValorFinal
+                <InputDtTermino
                   type="text"
                   name="preco-total"
                   disabled
+                  value={endDate}
                 />
               </div>
               <div>
                 <label htmlFor="preco-total">Valor final</label>
-                <InputDtTerminoValorFinal
+                <InputValorFinal
                   type="text"
-                  name="preco-total"
+                  name="totalPrice"
                   disabled
+                  value={finalPrice}
+                  prefix="R$"
+                  thousandSeparator={"."}
+                  decimalSeparator={","}
+                  fixedDecimalScale={true}
+                  decimalScale={2}
                 />
               </div>
             </div>

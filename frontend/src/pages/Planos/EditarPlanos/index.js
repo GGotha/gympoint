@@ -18,7 +18,7 @@ import {
 export default function EditarPlanos() {
   const [title, setTitle] = useState("");
   const [duration, setDuration] = useState("");
-  const [price, setPrice] = useState("");
+  const [price, setPrice] = useState("R$0,00");
   const [totalPrice, setTotalPrice] = useState("");
 
   useEffect(() => {
@@ -33,12 +33,15 @@ export default function EditarPlanos() {
       setTitle(planos.title);
       setDuration(planos.duration);
       setPrice(planos.price);
+      setTotalPrice(planos.price * planos.duration);
     }
-
-    setTotalPrice(price * duration);
 
     getPlanos();
   }, []);
+
+  useEffect(() => {
+    setTotalPrice(price * duration);
+  }, [price, duration]);
 
   const dadosEdicao = {
     title,
@@ -108,8 +111,8 @@ export default function EditarPlanos() {
                 <InputDuracaoPrecoMensalPrecoTotal
                   type="text"
                   name="duracao"
-                  value={duration}
                   onChange={e => setDuration(e.target.value)}
+                  value={duration}
                 />
               </div>
               <div>
@@ -119,11 +122,6 @@ export default function EditarPlanos() {
                   name="preco-mensal"
                   onChange={e => setPrice(e.target.value)}
                   value={price}
-                  prefix="R$"
-                  thousandSeparator={"."}
-                  decimalSeparator={","}
-                  fixedDecimalScale={true}
-                  decimalScale={2}
                 />
               </div>
 

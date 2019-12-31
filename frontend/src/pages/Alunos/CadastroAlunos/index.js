@@ -44,8 +44,6 @@ export default function CadastroAlunos(props) {
     if (response.data.status === "success") {
       toast.success(response.data.msg);
     }
-
-    dispatch(Creators.listStudentsRequest());
   }
 
   return (

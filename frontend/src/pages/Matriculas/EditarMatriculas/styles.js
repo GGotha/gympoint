@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Form, Input, Select } from "@rocketseat/unform";
+import CurrencyFormat from "react-currency-format";
 
 export const Content = styled.div`
   width: 65%;
@@ -42,7 +43,7 @@ export const BotaoSalvar = styled.button`
   text-transform: uppercase;
   font-weight: bold;
   border-radius: 4px;
-  height: auto;
+  height: 35px;
 
   svg {
     margin-right: 10px;
@@ -70,6 +71,7 @@ export const BotaoVoltar = styled.button`
   font-weight: bold;
   margin-right: 30px;
   border-radius: 4px;
+  height: 35px;
 
   svg {
     margin-right: 10px;
@@ -130,7 +132,7 @@ export const InputAluno = styled(Select)`
   background-position-x: 98%;
 `;
 
-export const InputPlanoDtInicio = styled(Select)`
+export const InputPlano = styled(Select)`
   padding: 10px 15px;
   font-size: 15px;
   border: 1px solid #dddddd;
@@ -147,7 +149,24 @@ export const InputPlanoDtInicio = styled(Select)`
   background-position-x: 95%;
 `;
 
-export const InputDtTerminoValorFinal = styled(Input)`
+export const InputDtInicio = styled(Input)`
+  padding: 10px 15px;
+  font-size: 15px;
+  border: 1px solid #dddddd;
+  margin-bottom: 20px;
+  width: 100%;
+  border-radius: 4px;
+`;
+
+export const InputDtTermino = styled(Input)`
+  padding: 10px;
+  font-size: 15px;
+  border: 1px solid #dddddd;
+  margin-bottom: 20px;
+  width: 100%;
+  border-radius: 4px;
+`;
+export const InputValorFinal = styled(CurrencyFormat)`
   padding: 10px;
   font-size: 15px;
   border: 1px solid #dddddd;

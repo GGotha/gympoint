@@ -48,7 +48,7 @@ function GerenciandoAlunos(props) {
         </thead>
         <tbody>
           {props.results === 1
-            ? props.students.map((student, index) => (
+            ? props.students.map(student => (
                 <tr key={student.id}>
                   <td>{student.name}</td>
                   <td width={350}>{student.email}</td>

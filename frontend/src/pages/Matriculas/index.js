@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { Creators } from "~/store/modules/ducks/reducers";
 import { connect, useDispatch } from "react-redux";
 
-export default function Matriculas() {
+function Matriculas() {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -42,3 +42,5 @@ export default function Matriculas() {
     </div>
   );
 }
+
+export default connect()(Matriculas);

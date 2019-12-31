@@ -39,13 +39,18 @@ protectedRoutes.put("/planos/:id", PlanoController.put);
 
 protectedRoutes.post("/matriculas", MatrículaController.store);
 protectedRoutes.get("/matriculas", MatrículaController.index);
+protectedRoutes.get("/matriculas/:id", MatrículaController.indexMatriculasById);
 protectedRoutes.delete("/matriculas/:id", MatrículaController.delete);
 protectedRoutes.put("/matriculas/:id", MatrículaController.put);
 
 protectedRoutes.post(
-  "/help-orders/:id/anwser",
-  HelpOrdersController.anwserStudents
+  "/help-orders/:id/answer",
+  HelpOrdersController.answerStudents
 );
 protectedRoutes.get("/help-orders", HelpOrdersController.indexUnanswered);
+protectedRoutes.get(
+  "/help-orders/:id",
+  HelpOrdersController.indexHelpOrdersById
+);
 
 module.exports = protectedRoutes;

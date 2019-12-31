@@ -31,7 +31,6 @@ export function* sagasAuth({ payload }) {
 
     history.push("/alunos");
   } catch (err) {
-    console.log(err);
     toast.error("Falha na autenticação, verifique seus dados");
     yield put(Creators.signFailure());
   }
@@ -118,11 +117,29 @@ export function* listMatriculas() {
   }
 }
 
+export function* listPlanosDeAuxilio() {
+  try {
+    const response = yield call(api.get, "help-orders");
+
+    const helpOrders = response.data;
+
+    if (response.data.status === "error") {
+      return toast.error(response.data.msg);
+    }
+
+    yield put(Creators.listPlanosDeAuxilioSuccess(helpOrders));
+  } catch (err) {
+    toast.error("Falha na busca dos alunos");
+    yield put(Creators.listPlanosDeAuxilioFailure());
+  }
+}
+
 export default all([
   takeLatest("persist/REHYDRATE", setToken),
   takeLatest(Types.REQUEST_AUTH, sagasAuth),
   takeLatest(Types.LEAVE_AUTH, signLeave),
   takeLatest(Types.REQUEST_LISTSTUDENTS, listStudents),
   takeLatest(Types.REQUEST_LISTPLANOS, listPlanos),
-  takeLatest(Types.REQUEST_LISTMATRICULAS, listMatriculas)
+  takeLatest(Types.REQUEST_LISTMATRICULAS, listMatriculas),
+  takeLatest(Types.REQUEST_LISTPLANOSDEAUXILIO, listPlanosDeAuxilio)
 ]);

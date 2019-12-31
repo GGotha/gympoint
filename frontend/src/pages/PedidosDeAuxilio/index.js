@@ -1,10 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { Content } from "./styles";
 import Header from "~/components/Header";
 import GerenciandoAuxilios from "~/components/GerenciandoAuxilios";
+import { connect, useDispatch } from "react-redux";
+import { Creators } from "~/store/modules/ducks/reducers";
 
-export default function PedidosDeAuxilio() {
+function PedidosDeAuxilio() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    async function searchHelpOrders() {
+      dispatch(Creators.listPlanosDeAuxilioRequest());
+    }
+
+    searchHelpOrders();
+  }, []);
+
   return (
     <div>
       <Header />
@@ -17,3 +29,7 @@ export default function PedidosDeAuxilio() {
     </div>
   );
 }
+
+export default connect(state => ({
+  planosDeAuxilio: state.Reducers.planosDeAuxilio
+}))(PedidosDeAuxilio);

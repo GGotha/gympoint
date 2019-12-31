@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Form, Input, Select } from "@rocketseat/unform";
-import AsyncSelect from "react-select/async";
+import CurrencyFormat from "react-currency-format";
 
 export const Content = styled.div`
   width: 65%;
@@ -43,7 +43,7 @@ export const BotaoSalvar = styled.button`
   text-transform: uppercase;
   font-weight: bold;
   border-radius: 4px;
-  height: auto;
+  height: 35px;
 
   svg {
     margin-right: 10px;
@@ -71,6 +71,7 @@ export const BotaoVoltar = styled.button`
   font-weight: bold;
   margin-right: 30px;
   border-radius: 4px;
+  height: 35px;
 
   svg {
     margin-right: 10px;
@@ -110,7 +111,26 @@ export const FormularioCadastroAlunos = styled(Form)`
   }
 `;
 
-export const InputAluno = styled(AsyncSelect)``;
+export const InputAluno = styled(Select)`
+  padding: 10px 15px;
+  font-size: 15px;
+  border: 1px solid #dddddd;
+  margin-bottom: 20px;
+  width: 100%;
+  border-radius: 4px;
+
+  select::-ms-expand {
+    display: none; /* Hide the default arrow in Internet Explorer 10 and Internet Explorer 11 */
+  }
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: transparent;
+  background: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png)
+    no-repeat right;
+  background-position-x: 98%;
+`;
 
 export const InputPlanoDtInicio = styled(Select)`
   padding: 10px 15px;
@@ -129,7 +149,15 @@ export const InputPlanoDtInicio = styled(Select)`
   background-position-x: 95%;
 `;
 
-export const InputDtTerminoValorFinal = styled(Input)`
+export const InputDtTermino = styled(Input)`
+  padding: 10px;
+  font-size: 15px;
+  border: 1px solid #dddddd;
+  margin-bottom: 20px;
+  width: 100%;
+  border-radius: 4px;
+`;
+export const InputValorFinal = styled(CurrencyFormat)`
   padding: 10px;
   font-size: 15px;
   border: 1px solid #dddddd;

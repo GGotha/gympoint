@@ -132,29 +132,26 @@ class MatrículaController {
       plan_id: Yup.number()
         .integer()
         .positive()
-        .required(),
-      start_date: Yup.date().required()
+        .required()
     });
 
     if (!(await schema.isValid(req.body))) {
       return res.json({ status: "error", msg: "Falha na validação" });
     }
 
-    const { student_id, plan_id, start_date } = req.body;
+    const { student_id, plan_id } = req.body;
 
     try {
       const findForUpdate = await Matrículas.findOne({ where: { id } });
 
-      const validationDate = isBefore(parseISO(start_date), new Date());
-
-      if (validationDate === true) {
+      if (findForUpdate === null) {
         return res.send({
           status: "error",
-          msg: "Você não pode escolher uma data que já passou"
+          msg: "Você não pode alterar uma matrícula que não existe"
         });
       }
 
-      await findForUpdate.update({ student_id, plan_id, start_date });
+      await findForUpdate.update({ student_id, plan_id });
 
       return res.send({
         status: "success",
@@ -167,6 +164,16 @@ class MatrículaController {
         msg: "Ocorreu um erro no servidor, tente novamente mais tarde!"
       });
     }
+  }
+  async indexMatriculasById(req, res) {
+    const id = req.params.id;
+
+    return res.send(
+      await Matrículas.findOne({
+        where: { id },
+        include: [{ model: Students }, { model: Planos }]
+      })
+    );
   }
 }
 

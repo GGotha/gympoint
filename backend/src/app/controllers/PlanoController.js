@@ -82,15 +82,15 @@ class PlanoController {
         .required()
     });
 
-    if (req.body.price !== undefined) {
-      var priceValidation = req.body.price.replace(",", ".");
+    // if (req.body.price !== undefined) {
+    //   var priceValidation = req.body.price.replace(",", ".");
 
-      if (priceValidation.split("R$").length === 2) {
-        var priceValidation = priceValidation.split("R$")[1];
-      }
-    }
+    //   if (priceValidation.split("R$").length === 2) {
+    //     var priceValidation = priceValidation.split("R$")[1];
+    //   }
+    // }
 
-    if (!(await schema.isValid({ ...req.body, price: priceValidation }))) {
+    if (!(await schema.isValid(req.body))) {
       return res.json({ status: "error", msg: "Falha na validação" });
     }
 
@@ -99,7 +99,7 @@ class PlanoController {
     try {
       const findForUpdate = await Planos.findOne({ where: { id } });
 
-      await findForUpdate.update({ title, duration, price: priceValidation });
+      await findForUpdate.update({ title, duration, price });
 
       return res.send({
         status: "success",
