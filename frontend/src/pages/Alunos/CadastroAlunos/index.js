@@ -14,30 +14,28 @@ import {
   QuadroDeCadastros
 } from "./styles";
 
-export default function CadastroAlunos(props) {
+export default function CadastroAlunos() {
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [idade, setIdade] = useState("");
   const [peso, setPeso] = useState("");
   const [altura, setAltura] = useState("");
 
-  const dadosCadastro = {
-    nome,
-    email,
-    idade,
-    peso,
-    altura
-  };
-
   async function handleSubmit() {
-    const response = await api.post("/students", dadosCadastro);
+    try {
+      const formInformations = { nome, email, idade, peso, altura };
 
-    if (response.data.status === "error") {
-      toast.error(response.data.msg);
-    }
+      const response = await api.post("/students", formInformations);
 
-    if (response.data.status === "success") {
-      toast.success(response.data.msg);
+      if (response.data.status === "error") {
+        return toast.error(response.data.msg);
+      }
+
+      toast.success("Aluno cadastrado com sucesso!");
+    } catch (err) {
+      return toast.error(
+        "Ocorreu um erro com o servidor, tente novamente mais tarde!"
+      );
     }
   }
 
@@ -74,6 +72,7 @@ export default function CadastroAlunos(props) {
               placeholder="John Doe"
               onChange={e => setNome(e.target.value)}
               required
+              autoFocus
             />
             <label htmlFor="email">Endereço de e-mail</label>
             <InputNomeEmail
@@ -85,7 +84,7 @@ export default function CadastroAlunos(props) {
             />
             <div>
               <div>
-                <label>Idade</label>
+                <label htmlFor="idade">Idade</label>
                 <InputIdadePesoAltura
                   type="text"
                   name="idade"
@@ -94,7 +93,7 @@ export default function CadastroAlunos(props) {
                 />
               </div>
               <div>
-                <label>
+                <label htmlFor="peso">
                   Peso <span>(em kg)</span>
                 </label>
                 <InputIdadePesoAltura
@@ -105,7 +104,7 @@ export default function CadastroAlunos(props) {
                 />
               </div>
               <div>
-                <label>Altura</label>
+                <label htmlFor="altura">Altura</label>
                 <InputIdadePesoAltura
                   type="text"
                   name="altura"

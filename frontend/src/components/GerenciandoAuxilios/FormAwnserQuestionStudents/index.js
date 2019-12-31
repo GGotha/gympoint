@@ -1,9 +1,10 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { connect, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import api from "~/services/api";
+import { Header } from "./styles";
 
-function FormAwnserQuestionStudents({ helpOrderData }) {
+function FormAwnserQuestionStudents(props) {
   const [answer, setAnswer] = useState("");
 
   const dispatch = useDispatch();
@@ -22,25 +23,26 @@ function FormAwnserQuestionStudents({ helpOrderData }) {
       );
 
       if (response.data.status === "error") {
-        return toast.error(
-          "Ocorreu um erro no servidor, tente novamente mais tarde!"
-        );
+        return toast.error(response.data.msg);
       }
 
       dispatch({ type: "planosdeauxilio/REMOVE", id: helpOrderData.id });
 
       toast.success("Help order respondida com sucesso!");
     } catch (err) {
-      toast.error(
+      return toast.error(
         "Ocorreu um erro com o servidor, tente novamente mais tarde!"
       );
     }
   }
+
+  const { helpOrderData } = props;
+
   return (
     <Fragment>
-      <div style={{ display: "flex", alignItems: "center" }}>
-        <h3 className="text-center h3ParesNegociacoes">Pergunta do aluno</h3>
-      </div>
+      <Header>
+        <h3>Pergunta do aluno</h3>
+      </Header>
       <p>{helpOrderData.question}</p>
       <form onSubmit={e => handleSubmit(e)}>
         <label>Sua resposta</label>

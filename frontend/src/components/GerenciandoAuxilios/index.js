@@ -1,45 +1,46 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useState } from "react";
 import { connect } from "react-redux";
 import api from "~/services/api";
 import FormAwnserQuestionStudents from "./FormAwnserQuestionStudents";
 import { Container, Responder } from "./styles";
+import { toast } from "react-toastify";
 import "./styles.scss";
 
 function GerenciandoAuxilios(props) {
-  const [dataAuxilios, setDataAuxilios] = useState([]);
   const [helpOrderData, setHelpOrderData] = useState([]);
-  const [
-    isModalParesDeNegociacaoOpen,
-    setIsModalParesDeNegociacaoOpen
-  ] = useState(false);
 
-  useEffect(() => {
-    async function getAuxilios() {
-      const response = await api.get("help-orders");
-
-      setDataAuxilios(response.data);
-    }
-
-    getAuxilios();
-  }, []);
-
-  async function changeBlock(helpOrderId) {
-    setIsModalParesDeNegociacaoOpen(true);
-    const modal = document.getElementById("modalParesNegociacoes");
-    modal.style.display = "block";
+  async function openModal(helpOrderId) {
+    const modalHelpOrders = document.getElementById("modalHelpOrders");
+    modalHelpOrders.style.display = "block";
 
     const response = await api.get(`help-orders/${helpOrderId}`);
 
     setHelpOrderData(response.data);
+
+    try {
+      const response = await api.get(`help-orders/${helpOrderId}`);
+
+      if (response.data.status === "error") {
+        return toast.error(response.data.msg);
+      }
+
+      setHelpOrderData(response.data);
+    } catch (err) {
+      return toast.error(
+        "Ocorreu um erro com o servidor, tente novamente mais tarde!"
+      );
+    }
   }
 
   window.addEventListener("click", function(event) {
-    setIsModalParesDeNegociacaoOpen(false);
-    const modal = document.getElementById("modalParesNegociacoes");
-    if (event.target == modal) {
-      modal.style.display = "none";
+    const modalHelpOrders = document.getElementById("modalHelpOrders");
+
+    if (event.target == modalHelpOrders) {
+      modalHelpOrders.style.display = "none";
     }
   });
+
+  const { planosDeAuxilio } = props;
 
   return (
     <Fragment>
@@ -51,11 +52,11 @@ function GerenciandoAuxilios(props) {
             </tr>
           </thead>
           <tbody>
-            {props.planosDeAuxilio.map(auxilios => (
-              <tr key={auxilios.id} style={{ borderBottom: "1px solid #ddd" }}>
+            {planosDeAuxilio.map(auxilios => (
+              <tr key={auxilios.id}>
                 <td>{auxilios.Student.name}</td>
                 <td width={10}>
-                  <Responder onClick={() => changeBlock(auxilios.id)}>
+                  <Responder onClick={() => openModal(auxilios.id)}>
                     responder
                   </Responder>
                 </td>
@@ -65,7 +66,7 @@ function GerenciandoAuxilios(props) {
         </table>
       </Container>
 
-      <div id="modalParesNegociacoes" className="divModalParesDeNegociacoes">
+      <div id="modalHelpOrders" className="divModalFormularioHelpOrders">
         <div className="modal-content">
           <FormAwnserQuestionStudents helpOrderData={helpOrderData} />
         </div>

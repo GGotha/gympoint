@@ -44,6 +44,7 @@ export const Editar = styled.button`
   font-size: 15px;
   cursor: pointer;
 `;
+
 export const Apagar = styled.button`
   text-decoration: none;
   color: #de3b3b;

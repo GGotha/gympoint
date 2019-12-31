@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Route, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
-// import { Container } from './styles';
 
 export default function PrivateRoute({
   component: Component,

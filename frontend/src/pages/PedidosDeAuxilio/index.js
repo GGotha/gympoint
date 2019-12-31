@@ -9,11 +9,11 @@ function PedidosDeAuxilio() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    async function searchHelpOrders() {
+    async function getHelpOrders() {
       dispatch(Creators.listPlanosDeAuxilioRequest());
     }
 
-    searchHelpOrders();
+    getHelpOrders();
   }, []);
 
   return (

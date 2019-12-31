@@ -92,7 +92,7 @@ export default function CadastroMatriculas() {
 
       toast.success("Matrícula adicionada com sucesso!");
     } catch (err) {
-      toast.error(
+      return toast.error(
         "Ocorreu um erro com o servidor, tente novamente mais tarde!"
       );
     }

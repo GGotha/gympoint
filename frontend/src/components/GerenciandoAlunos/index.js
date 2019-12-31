@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import api from "~/services/api";
 import history from "~/services/history";
 import { Apagar, Container, Editar } from "./styles";
+import "./styles.scss";
 
 function GerenciandoAlunos(props) {
   const dispatch = useDispatch();
@@ -25,11 +26,13 @@ function GerenciandoAlunos(props) {
 
       toast.success("Aluno removido com sucesso!");
     } catch (err) {
-      toast.error(
+      return toast.error(
         "Ocorreu um erro com o servidor, tente novamente mais tarde!"
       );
     }
   }
+
+  const { results, students } = props;
 
   return (
     <Container>
@@ -38,16 +41,16 @@ function GerenciandoAlunos(props) {
           <tr>
             <th>Nome</th>
             <th>E-mail</th>
-            <th style={{ textAlign: "center" }}>Idade</th>
+            <th className="text-center">Idade</th>
           </tr>
         </thead>
         <tbody>
-          {props.results === 1
-            ? props.students.map(student => (
+          {results === undefined
+            ? students.map(student => (
                 <tr key={student.id}>
                   <td>{student.name}</td>
                   <td width={350}>{student.email}</td>
-                  <td style={{ textAlign: "center" }}>{student.age}</td>
+                  <td className="text-center">{student.age}</td>
                   <td width={10}>
                     <Editar onClick={() => handleEdit(student.id)}>
                       editar
@@ -60,11 +63,11 @@ function GerenciandoAlunos(props) {
                   </td>
                 </tr>
               ))
-            : props.results.map((result, index) => (
+            : results.map(result => (
                 <tr key={result.id}>
                   <td>{result.name}</td>
                   <td width={350}>{result.email}</td>
-                  <td style={{ textAlign: "center" }}>{result.age}</td>
+                  <td className="text-center">{result.age}</td>
                   <td width={10}>
                     <Editar onClick={() => handleEdit(result.id)}>
                       editar

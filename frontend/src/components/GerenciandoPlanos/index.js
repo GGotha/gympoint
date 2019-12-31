@@ -25,7 +25,7 @@ function GerenciandoPlanos(props) {
 
       toast.success("Plano removido com sucesso!");
     } catch (err) {
-      toast.error(
+      return toast.error(
         "Ocorreu um erro com o servidor, tente novamente mais tarde!"
       );
     }
@@ -39,18 +39,18 @@ function GerenciandoPlanos(props) {
         <thead>
           <tr>
             <th>Título</th>
-            <th style={{ textAlign: "center" }}>Duração</th>
-            <th style={{ textAlign: "center" }}>
+            <th className="text-center">Duração</th>
+            <th className="text-center">
               Valor <span>p/</span> mês
             </th>
           </tr>
         </thead>
         <tbody>
-          {planos.map((planos, index) => (
-            <tr key={planos.id} style={{ borderBottom: "1px solid #ddd" }}>
+          {planos.map(planos => (
+            <tr key={planos.id} className="borderBottomGrey">
               <td>{planos.title}</td>
-              <td style={{ textAlign: "center" }}>{planos.duration}</td>
-              <td style={{ textAlign: "center" }}>{planos.price}</td>
+              <td className="text-center">{planos.duration}</td>
+              <td className="text-center">{planos.price}</td>
               <td width={10}>
                 <Editar onClick={() => handleEdit(planos.id)}>editar</Editar>
               </td>

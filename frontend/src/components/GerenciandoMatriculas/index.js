@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import api from "~/services/api";
 import history from "~/services/history";
 import { Apagar, Container, Editar } from "./styles";
+import "./styles.scss";
 
 function GerenciandoMatriculas(props) {
   const dispatch = useDispatch();
@@ -19,16 +20,14 @@ function GerenciandoMatriculas(props) {
       const response = await api.delete(`matriculas/${matriculaId}`);
 
       if (response.data.status === "error") {
-        return toast.error(
-          "Ocorreu um erro no servidor, tente novamente mais tarde!"
-        );
+        return toast.error(response.data.msg);
       }
 
       dispatch({ type: "matricula/REMOVE", id: matriculaId });
 
       toast.success("Matricula removida com sucesso!");
     } catch (err) {
-      toast.error(
+      return toast.error(
         "Ocorreu um erro com o servidor, tente novamente mais tarde!"
       );
     }
@@ -42,24 +41,24 @@ function GerenciandoMatriculas(props) {
         <thead>
           <tr>
             <th>Aluno</th>
-            <th style={{ textAlign: "center" }}>Plano</th>
-            <th style={{ textAlign: "center" }}>Início</th>
-            <th style={{ textAlign: "center" }}>Término</th>
-            <th style={{ textAlign: "center" }}>Ativa</th>
+            <th className="text-center">Plano</th>
+            <th className="text-center">Início</th>
+            <th className="text-center">Término</th>
+            <th className="text-center">Ativa</th>
           </tr>
         </thead>
         <tbody>
-          {matriculas.map((matriculas, index) => (
-            <tr key={matriculas.id} style={{ borderBottom: "1px solid #ddd" }}>
+          {matriculas.map(matriculas => (
+            <tr key={matriculas.id} className="borderBottomGrey">
               <td>{matriculas.Student.name}</td>
-              <td style={{ textAlign: "center" }}>{matriculas.Plano.title}</td>
-              <td style={{ textAlign: "center" }}>{matriculas.start_date}</td>
-              <td style={{ textAlign: "center" }}>{matriculas.end_date}</td>
-              <td style={{ textAlign: "center" }}>
+              <td className="text-center">{matriculas.Plano.title}</td>
+              <td className="text-center">{matriculas.start_date}</td>
+              <td className="text-center">{matriculas.end_date}</td>
+              <td className="text-center">
                 {matriculas.fl_ativo === 0 ? (
-                  <FaRegCheckCircle style={{ color: "#DDDDDD" }} />
+                  <FaRegCheckCircle className="color-grey" />
                 ) : (
-                  <FaRegCheckCircle style={{ color: "#42CB59" }} />
+                  <FaRegCheckCircle className="color-green" />
                 )}
               </td>
               <td width={10}>

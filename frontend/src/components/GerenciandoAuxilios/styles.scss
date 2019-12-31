@@ -1,4 +1,4 @@
-.divModalParesDeNegociacoes {
+.divModalFormularioHelpOrders {
   display: none;
   position: fixed;
   z-index: 1;
@@ -12,7 +12,7 @@
   background-color: rgba(0, 0, 0, 0.6);
 }
 
-.divModalParesDeNegociacoes .modal-content {
+.divModalFormularioHelpOrders .modal-content {
   background-color: #fefefe;
   margin: auto;
   padding: 30px;
@@ -20,7 +20,7 @@
   width: 30%;
 }
 
-.divModalParesDeNegociacoes {
+.divModalFormularioHelpOrders {
   p {
     margin-top: 10px;
     letter-spacing: 0.5px;
@@ -73,10 +73,4 @@
       }
     }
   }
-}
-
-.divModalParesDeNegociacoes p {
-}
-
-.divModalParesDeNegociacoes h3 {
 }

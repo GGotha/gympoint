@@ -88,7 +88,7 @@ export const QuadroDeCadastros = styled.div`
   margin-top: 30px;
 `;
 
-export const FormularioCadastroAlunos = styled(Form)`
+export const FormularioEditarAlunos = styled(Form)`
   display: flex;
   flex-direction: column;
   width: 100%;

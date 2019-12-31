@@ -8,7 +8,7 @@ import { Creators } from "~/store/modules/ducks/reducers";
 import { BotaoCadastrar, Content } from "./styles";
 
 function Alunos(props) {
-  const [results, setResults] = useState(1);
+  const [results, setResults] = useState(undefined);
 
   const dispatch = useDispatch();
 
@@ -20,12 +20,12 @@ function Alunos(props) {
     searchStudents();
   }, []);
 
-  const handleInputChange = event => {
+  const handleInputChange = e => {
     const { students } = props;
 
     setResults(
       students.filter(data => {
-        return data.name.toLowerCase().search(event.target.value) != -1;
+        return data.name.toLowerCase().search(e.target.value) != -1;
       })
     );
   };
@@ -48,7 +48,7 @@ function Alunos(props) {
             <input
               type="text"
               placeholder="Buscar aluno"
-              onChange={event => handleInputChange(event)}
+              onChange={e => handleInputChange(e)}
             />
           </aside>
         </div>

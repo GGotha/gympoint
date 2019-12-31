@@ -17,29 +17,33 @@ import {
 export default function CadastroPlanos() {
   const [title, setTitle] = useState("");
   const [duration, setDuration] = useState(0);
-  const [price, setPrice] = useState("R$0,00");
+  const [price, setPrice] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
 
-  const dadosCadastro = {
-    title,
-    duration,
-    price
-  };
-
   async function handleSubmit() {
-    const response = await api.post("/planos", dadosCadastro);
+    try {
+      const formInformations = {
+        title,
+        duration,
+        price
+      };
 
-    if (response.data.status === "error") {
-      toast.error(response.data.msg);
-    }
+      const response = await api.post("/planos", formInformations);
 
-    if (response.data.status === "success") {
-      toast.success(response.data.msg);
+      if (response.data.status === "error") {
+        return toast.error(response.data.msg);
+      }
+
+      toast.success("Plano cadastrado com sucesso!");
+    } catch (err) {
+      return toast.error(
+        "Ocorreu um erro com o servidor, tente novamente mais tarde!"
+      );
     }
   }
 
   useEffect(() => {
-    setTotalPrice(parseFloat(price.replace("R$", "")) * duration);
+    setTotalPrice(price * duration);
   }, [duration, price]);
 
   return (

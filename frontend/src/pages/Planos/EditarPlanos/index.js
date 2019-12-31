@@ -15,24 +15,24 @@ import {
 } from "./styles";
 
 export default function EditarPlanos() {
-  const [title, setTitle] = useState("");
-  const [duration, setDuration] = useState("");
-  const [price, setPrice] = useState("R$0,00");
-  const [totalPrice, setTotalPrice] = useState("");
+  const [title, setTitle] = useState(undefined);
+  const [duration, setDuration] = useState(0);
+  const [price, setPrice] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(undefined);
+
+  var getUrlAndSplit = window.location.pathname.split("/");
+  var id = getUrlAndSplit[2];
 
   useEffect(() => {
-    var getUrlAndSplit = window.location.pathname.split("/");
-    var id = getUrlAndSplit[2];
-
     async function getPlanos() {
       const response = await api.get(`/planos/${id}`);
 
-      const planos = response.data;
+      const planosData = response.data;
 
-      setTitle(planos.title);
-      setDuration(planos.duration);
-      setPrice(planos.price);
-      setTotalPrice(planos.price * planos.duration);
+      setTitle(planosData.title);
+      setDuration(planosData.duration);
+      setPrice(planosData.price);
+      setTotalPrice(planosData.price * planosData.duration);
     }
 
     getPlanos();
@@ -42,18 +42,15 @@ export default function EditarPlanos() {
     setTotalPrice(price * duration);
   }, [price, duration]);
 
-  const dadosEdicao = {
-    title,
-    duration,
-    price
-  };
-
   async function handleSubmit() {
-    var getUrlAndSplit = window.location.pathname.split("/");
-    var id = getUrlAndSplit[2];
-
     try {
-      const response = await api.put(`/planos/${id}`, dadosEdicao);
+      const formInformations = {
+        title,
+        duration,
+        price
+      };
+
+      const response = await api.put(`/planos/${id}`, formInformations);
 
       if (response.data.status === "success") {
         toast.success(response.data.msg);

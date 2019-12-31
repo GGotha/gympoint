@@ -8,7 +8,7 @@ import {
   BotaoSalvar,
   BotaoVoltar,
   Content,
-  FormularioCadastroAlunos,
+  FormularioEditarAlunos,
   InputIdadePesoAltura,
   InputNomeEmail,
   QuadroDeCadastros
@@ -28,13 +28,13 @@ export default function EditarAlunos() {
     async function getStudent() {
       const response = await api.get(`/students/${id}`);
 
-      const dados = response.data;
+      const studentsData = response.data;
 
-      setNome(dados.name);
-      setEmail(dados.email);
-      setIdade(dados.age);
-      setPeso(parseFloat(dados.weight).toFixed(2));
-      setAltura(parseFloat(dados.height).toFixed(2));
+      setNome(studentsData.name);
+      setEmail(studentsData.email);
+      setIdade(studentsData.age);
+      setPeso(parseFloat(studentsData.weight).toFixed(2));
+      setAltura(parseFloat(studentsData.height).toFixed(2));
     }
 
     getStudent();
@@ -45,24 +45,15 @@ export default function EditarAlunos() {
     var id = getUrlAndSplit[2];
 
     try {
-      const pesoValidation = peso.replace(",", ".");
-      const alturaValidation = altura.replace(",", ".");
+      const formInformations = { nome, email, idade, peso, altura };
 
-      const response = await api.put(`/students/${id}`, {
-        nome,
-        email,
-        idade,
-        peso: pesoValidation,
-        altura: alturaValidation
-      });
+      const response = await api.put(`/students/${id}`, formInformations);
 
       if (response.data.status === "error") {
-        toast.error(response.data.msg);
+        return toast.error(response.data.msg);
       }
 
-      if (response.data.status === "success") {
-        toast.success(response.data.msg);
-      }
+      toast.success(response.data.msg);
     } catch (err) {
       return toast.error(
         "Ocorreu um erro com o servidor, tente novamente mais tarde!  "
@@ -92,7 +83,7 @@ export default function EditarAlunos() {
           </aside>
         </div>
         <QuadroDeCadastros>
-          <FormularioCadastroAlunos
+          <FormularioEditarAlunos
             onSubmit={() => handleSubmit()}
             id="formularioEditarAlunos"
           >
@@ -148,7 +139,7 @@ export default function EditarAlunos() {
                 />
               </div>
             </div>
-          </FormularioCadastroAlunos>
+          </FormularioEditarAlunos>
         </QuadroDeCadastros>
       </Content>
     </div>

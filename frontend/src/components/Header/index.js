@@ -32,7 +32,7 @@ export default function Header() {
       <Content>
         <nav>
           <Link to="/alunos">
-            <img src={logo} alt="logo " />
+            <img src={logo} alt="logo" />
           </Link>
           <span>Gympoint</span>
 
