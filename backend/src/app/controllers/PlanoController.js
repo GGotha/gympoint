@@ -61,6 +61,13 @@ class PlanoController {
         msg: "Plano removido com sucesso!"
       });
     } catch (err) {
+      if (err.name === "SequelizeForeignKeyConstraintError") {
+        return res.send({
+          status: "error",
+          msg:
+            "Não é possível deletar a matrícula, porque existe algum aluno vinculado à matrícula"
+        });
+      }
       return res.send({
         status: "error",
         msg: "Ocorreu um erro no servidor, tente novamente mais tarde!"
@@ -81,14 +88,6 @@ class PlanoController {
         .positive()
         .required()
     });
-
-    // if (req.body.price !== undefined) {
-    //   var priceValidation = req.body.price.replace(",", ".");
-
-    //   if (priceValidation.split("R$").length === 2) {
-    //     var priceValidation = priceValidation.split("R$")[1];
-    //   }
-    // }
 
     if (!(await schema.isValid(req.body))) {
       return res.json({ status: "error", msg: "Falha na validação" });

@@ -1,19 +1,17 @@
-import React, { useState, useEffect } from "react";
-import Header from "~/components/Header";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { FaAngleLeft, FaCheck } from "react-icons/fa";
-
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import Header from "~/components/Header";
 import api from "~/services/api";
-
 import {
-  Content,
   BotaoSalvar,
   BotaoVoltar,
-  QuadroDeCadastros,
+  Content,
   FormularioCadastroPlanos,
+  InputDuracaoPrecoMensalPrecoTotal,
   InputTitle,
-  InputDuracaoPrecoMensalPrecoTotal
+  QuadroDeCadastros
 } from "./styles";
 
 export default function CadastroPlanos() {

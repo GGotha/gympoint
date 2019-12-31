@@ -1,15 +1,11 @@
-import React, { useState, useEffect } from "react";
-
-import { Container, Editar, Apagar } from "./styles";
-import { parseISO, isBefore, format } from "date-fns";
-import { pt } from "date-fns/locale";
+import React from "react";
 import { FaRegCheckCircle } from "react-icons/fa";
-import { toast } from "react-toastify";
+import { connect, useDispatch } from "react-redux";
 import { withRouter } from "react-router-dom";
-
+import { toast } from "react-toastify";
 import api from "~/services/api";
 import history from "~/services/history";
-import { connect, useDispatch } from "react-redux";
+import { Apagar, Container, Editar } from "./styles";
 
 function GerenciandoMatriculas(props) {
   const dispatch = useDispatch();

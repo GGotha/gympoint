@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { withRouter } from "react-router-dom";
-import { Container, Editar, Apagar } from "./styles";
+import React from "react";
 import { connect, useDispatch } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { toast } from "react-toastify";
 import api from "~/services/api";
 import history from "~/services/history";
-import { toast } from "react-toastify";
+import { Apagar, Container, Editar } from "./styles";
 
 function GerenciandoPlanos(props) {
   const dispatch = useDispatch();
@@ -18,9 +18,7 @@ function GerenciandoPlanos(props) {
       const response = await api.delete(`planos/${planoId}`);
 
       if (response.data.status === "error") {
-        return toast.error(
-          "Ocorreu um erro no servidor, tente novamente mais tarde!"
-        );
+        return toast.error(response.data.msg);
       }
 
       dispatch({ type: "plano/REMOVE", id: planoId });

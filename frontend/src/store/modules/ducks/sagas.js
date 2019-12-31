@@ -1,14 +1,10 @@
-import { takeLatest, call, put, all } from "redux-saga/effects";
-
-import { Creators, Types } from "./reducers";
-
-import history from "~/services/history";
-import api from "~/services/api";
-
-import { toast } from "react-toastify";
-import { parseISO, isBefore, format } from "date-fns";
+import { format, isBefore, parseISO } from "date-fns";
 import { pt } from "date-fns/locale";
-import { FaRegCheckCircle } from "react-icons/fa";
+import { toast } from "react-toastify";
+import { all, call, put, takeLatest } from "redux-saga/effects";
+import api from "~/services/api";
+import history from "~/services/history";
+import { Creators, Types } from "./reducers";
 
 export function* sagasAuth({ payload }) {
   try {

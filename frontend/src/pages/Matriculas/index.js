@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
-
-import { Content, BotaoCadastrar } from "./styles";
-import Header from "../../components/Header";
-import GerenciandoMatriculas from "../../components/GerenciandoMatriculas";
 import { FaPlus } from "react-icons/fa";
+import { connect, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { Creators } from "~/store/modules/ducks/reducers";
-import { connect, useDispatch } from "react-redux";
+import GerenciandoMatriculas from "../../components/GerenciandoMatriculas";
+import Header from "../../components/Header";
+import { BotaoCadastrar, Content } from "./styles";
 
 function Matriculas() {
   const dispatch = useDispatch();

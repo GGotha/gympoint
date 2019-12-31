@@ -1,13 +1,11 @@
 import React, { useEffect } from "react";
-
-import { Content, BotaoCadastrar } from "./styles";
+import { FaPlus } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import GerenciandoPlanos from "~/components/GerenciandoPlanos";
 import Header from "~/components/Header";
-import { FaPlus } from "react-icons/fa";
-import { Link } from "react-router-dom";
-
-import { connect, useDispatch } from "react-redux";
 import { Creators } from "~/store/modules/ducks/reducers";
+import { BotaoCadastrar, Content } from "./styles";
 
 export default function Planos() {
   const dispatch = useDispatch();

@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { withRouter } from "react-router-dom";
-import { Container, Editar, Apagar } from "./styles";
-import { toast } from "react-toastify";
-
+import React from "react";
 import { connect, useDispatch } from "react-redux";
-
-import history from "~/services/history";
+import { withRouter } from "react-router-dom";
+import { toast } from "react-toastify";
 import api from "~/services/api";
+import history from "~/services/history";
+import { Apagar, Container, Editar } from "./styles";
 
 function GerenciandoAlunos(props) {
   const dispatch = useDispatch();
@@ -20,9 +18,7 @@ function GerenciandoAlunos(props) {
       const response = await api.delete(`students/${studentId}`);
 
       if (response.data.status === "error") {
-        return toast.error(
-          "Ocorreu um erro no servidor, tente novamente mais tarde!"
-        );
+        return toast.error(response.data.msg);
       }
 
       dispatch({ type: "student/REMOVE", id: studentId });
@@ -35,7 +31,6 @@ function GerenciandoAlunos(props) {
     }
   }
 
-  // const { results, students } = props;
   return (
     <Container>
       <table>

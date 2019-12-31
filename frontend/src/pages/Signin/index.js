@@ -1,11 +1,9 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import logo from "~/assets/logo.png";
 import { toast } from "react-toastify";
-
-import { Formulario, Container, DivLogo, InputUnform } from "./styles";
-
+import logo from "~/assets/logo.png";
 import { Creators as AuthActions } from "~/store/modules/ducks/reducers";
+import { Container, DivLogo, Formulario, InputUnform } from "./styles";
 
 export default function Signin() {
   const dispatch = useDispatch();

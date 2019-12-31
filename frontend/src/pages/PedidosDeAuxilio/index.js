@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
-
-import { Content } from "./styles";
-import Header from "~/components/Header";
-import GerenciandoAuxilios from "~/components/GerenciandoAuxilios";
 import { connect, useDispatch } from "react-redux";
+import GerenciandoAuxilios from "~/components/GerenciandoAuxilios";
+import Header from "~/components/Header";
 import { Creators } from "~/store/modules/ducks/reducers";
+import { Content } from "./styles";
 
 function PedidosDeAuxilio() {
   const dispatch = useDispatch();

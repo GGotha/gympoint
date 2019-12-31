@@ -1,19 +1,17 @@
 import React, { Fragment } from "react";
 import { Switch } from "react-router-dom";
 import Route from "./components/PrivateRoute";
-
-// import { Container } from './styles';
-import Signin from "./pages/Signin";
 import Alunos from "./pages/Alunos";
-import Planos from "./pages/Planos";
-import Matriculas from "./pages/Matriculas";
-import PedidosDeAuxilio from "./pages/PedidosDeAuxilio";
 import CadastroAlunos from "./pages/Alunos/CadastroAlunos";
-import CadastroPlanos from "./pages/Planos/CadastroPlanos";
-import CadastroMatriculas from "./pages/Matriculas/CadastroMatriculas";
 import EditarAlunos from "./pages/Alunos/EditarAlunos";
-import EditarPlanos from "./pages/Planos/EditarPlanos";
+import Matriculas from "./pages/Matriculas";
+import CadastroMatriculas from "./pages/Matriculas/CadastroMatriculas";
 import EditarMatriculas from "./pages/Matriculas/EditarMatriculas";
+import PedidosDeAuxilio from "./pages/PedidosDeAuxilio";
+import Planos from "./pages/Planos";
+import CadastroPlanos from "./pages/Planos/CadastroPlanos";
+import EditarPlanos from "./pages/Planos/EditarPlanos";
+import Signin from "./pages/Signin";
 
 export default function Routes() {
   return (

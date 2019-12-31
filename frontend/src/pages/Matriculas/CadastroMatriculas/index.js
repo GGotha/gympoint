@@ -1,22 +1,21 @@
-import React, { useState, useEffect, useMemo } from "react";
-import Header from "~/components/Header";
-import { Link } from "react-router-dom";
-import { FaAngleLeft, FaCheck } from "react-icons/fa";
-import { parseISO, format, addDays, addMonths, addMinutes } from "date-fns";
+import { addMinutes, addMonths, format } from "date-fns";
 import pt from "date-fns/locale/pt";
-import api from "~/services/api";
+import React, { useEffect, useMemo, useState } from "react";
+import { FaAngleLeft, FaCheck } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-
+import Header from "~/components/Header";
+import api from "~/services/api";
 import {
-  Content,
   BotaoSalvar,
   BotaoVoltar,
-  QuadroDeCadastros,
+  Content,
   FormularioCadastroAlunos,
   InputAluno,
   InputDtTermino,
   InputPlanoDtInicio,
-  InputValorFinal
+  InputValorFinal,
+  QuadroDeCadastros
 } from "./styles";
 
 export default function CadastroMatriculas() {

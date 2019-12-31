@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from "react";
-import Header from "~/components/Header";
-import { Link } from "react-router-dom";
-import api from "~/services/api";
-
-import { Content, BotaoCadastrar } from "./styles";
-import GerenciandoAlunos from "~/components/GerenciandoAlunos";
+import React, { useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { connect, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import GerenciandoAlunos from "~/components/GerenciandoAlunos";
+import Header from "~/components/Header";
 import { Creators } from "~/store/modules/ducks/reducers";
+import { BotaoCadastrar, Content } from "./styles";
 
 function Alunos(props) {
   const [results, setResults] = useState(1);

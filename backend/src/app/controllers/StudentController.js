@@ -196,6 +196,14 @@ class StudentController {
         msg: "Aluno removido com sucesso!"
       });
     } catch (err) {
+      if (err.name === "SequelizeForeignKeyConstraintError") {
+        return res.send({
+          status: "error",
+          msg:
+            "Não é possível deletar o aluno, porque existe alguma matrícula vinculado ao aluno"
+        });
+      }
+
       return res.send({
         status: "error",
         msg: "Ocorreu um erro no servidor, tente novamente mais tarde!"

@@ -1,11 +1,9 @@
-import React, { Fragment, useState, useEffect } from "react";
-
-import { Container, Responder } from "./styles";
-import { connect, useDispatch } from "react-redux";
-
+import React, { Fragment, useEffect, useState } from "react";
+import { connect } from "react-redux";
 import api from "~/services/api";
-import "./styles.scss";
 import FormAwnserQuestionStudents from "./FormAwnserQuestionStudents";
+import { Container, Responder } from "./styles";
+import "./styles.scss";
 
 function GerenciandoAuxilios(props) {
   const [dataAuxilios, setDataAuxilios] = useState([]);

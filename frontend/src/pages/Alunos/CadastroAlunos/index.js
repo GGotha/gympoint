@@ -1,25 +1,20 @@
 import React, { useState } from "react";
-import Header from "~/components/Header";
-import { Link } from "react-router-dom";
 import { FaAngleLeft, FaCheck } from "react-icons/fa";
-import api from "~/services/api";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { connect, useDispatch } from "react-redux";
-import { Creators } from "~/store/modules/ducks/reducers";
-
+import Header from "~/components/Header";
+import api from "~/services/api";
 import {
-  Content,
   BotaoSalvar,
   BotaoVoltar,
-  QuadroDeCadastros,
+  Content,
   FormularioCadastroAlunos,
+  InputIdadePesoAltura,
   InputNomeEmail,
-  InputIdadePesoAltura
+  QuadroDeCadastros
 } from "./styles";
 
 export default function CadastroAlunos(props) {
-  const dispatch = useDispatch();
-
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [idade, setIdade] = useState("");
