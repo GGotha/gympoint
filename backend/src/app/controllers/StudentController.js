@@ -147,16 +147,35 @@ class StudentController {
         });
       }
 
-      // if (
-      //   (await Users.findOne({
-      //     where: { email }
-      //   })) ||
-      //   (await Students.findOne({
-      //     where: { email }
-      //   }))
-      // ) {
-      //   return res.json({ status: "error", msg: "Email já cadastrado" });
-      // }
+      if (findStudentById.email === email) {
+        findStudentById.update({
+          name: nome,
+          email,
+          age: idade,
+          weight: pesoValidation,
+          height: alturaValidation
+        });
+
+        return res.send({
+          status: "success",
+          msg: "Aluno alterado com sucesso!"
+        });
+      }
+
+      if (
+        (await Users.findOne({
+          where: { email }
+        })) ||
+        (await Students.findOne({
+          where: { email }
+        }))
+      ) {
+        return res.json({
+          status: "error",
+          msg:
+            "Não foi possível alterar o aluno, pois o email inserido já está sendo usado"
+        });
+      }
 
       findStudentById.update({
         name: nome,
@@ -171,6 +190,7 @@ class StudentController {
         msg: "Aluno alterado com sucesso!"
       });
     } catch (err) {
+      console.log(err.name);
       return res.send({
         status: "error",
         msg: "Ocorreu um erro com o servidor, tente novamente mais tarde!"

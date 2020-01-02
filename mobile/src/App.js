@@ -1,9 +1,13 @@
 import React from 'react';
-import {View} from 'react-native';
+import { useSelector } from 'react-redux';
+import createRouter from './routes';
 
-// import { Container } from './styles';
-import Routes from './routes';
+function App() {
+  const signed = true;
 
-export default function App() {
+  const Routes = createRouter(signed);
+
   return <Routes />;
 }
+
+export default App;
