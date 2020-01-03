@@ -1,4 +1,4 @@
-const { Users } = require("../models");
+const { Users, Students } = require("../models");
 const Yup = require("yup");
 
 class SessionController {
@@ -42,6 +42,35 @@ class SessionController {
         token: user.generateToken(user)
       });
     } catch (err) {
+      return res.send({
+        status: "error",
+        msg: "Ocorreu um erro no servidor, tente novamente mais tarde!"
+      });
+    }
+  }
+  async mobileAuthenticate(req, res) {
+    const { id } = req.params;
+
+    try {
+      const student = await Students.findOne({
+        where: { id },
+        attributes: ["id", "name", "email", "age", "weight", "height"]
+      });
+
+      if (student === null) {
+        return res.send({
+          status: "error",
+          msg: "Não foi possível encontrar seu cadastro!"
+        });
+      }
+
+      return res.send({
+        status: "success",
+        msg: "Login realizado com sucesso!",
+        student
+      });
+    } catch (err) {
+      console.log(err);
       return res.send({
         status: "error",
         msg: "Ocorreu um erro no servidor, tente novamente mais tarde!"

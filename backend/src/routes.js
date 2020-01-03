@@ -23,6 +23,10 @@ routes.use(
 );
 
 routes.post("/users/authenticate", SessionController.store);
+routes.post(
+  "/students/mobile-authenticate/:id",
+  SessionController.mobileAuthenticate
+);
 routes.post("/students/:id/checkins", CheckinController.store);
 routes.get("/students/:id/checkins", CheckinController.index);
 routes.post("/students/:id/help-orders", HelpOrdersController.store);

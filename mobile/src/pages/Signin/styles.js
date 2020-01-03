@@ -8,6 +8,7 @@ export const Container = styled.View`
   /* display: flex; */
   justify-content: center;
 `;
+export const Formulario = styled.View``;
 
 const styles = StyleSheet.create({
   image: {

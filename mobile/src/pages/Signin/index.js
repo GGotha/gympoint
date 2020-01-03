@@ -1,14 +1,25 @@
-import React from 'react';
-import { View, Text, Image } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, Image, Alert } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import Input from '~/components/Input';
 import Background from '~/components/Background';
 import Button from '~/components/Button';
-import styles, { Container } from './styles';
+import styles, { Container, Formulario } from './styles';
+import api from '~/services/api';
+import { useDispatch } from 'react-redux';
+import { Creators } from '~/store/modules/ducks/reducers';
 
 import logo from '~/assets/logo.png';
 
 export default function Signin() {
+  const dispatch = useDispatch();
+  const [id, setId] = useState('');
+
+  async function handleSubmit() {
+    dispatch(Creators.signInRequest(id));
+  }
+
   return (
     <Container>
       <View style={styles.viewImage}>
@@ -17,9 +28,11 @@ export default function Signin() {
       <Input
         style={{ marginTop: 30, marginBottom: 20, border: '1px solid' }}
         placeholder="Informe seu ID de cadastro"
+        value={id}
+        onChangeText={setId}
       />
 
-      <Button>Entrar no sistema</Button>
+      <Button onPress={() => handleSubmit()}>Entrar no sistema</Button>
     </Container>
   );
 }

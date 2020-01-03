@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import createRouter from './routes';
 
 function App() {
-  const signed = true;
+  const signed = useSelector(state => state.Reducers.signed);
 
   const Routes = createRouter(signed);
 
