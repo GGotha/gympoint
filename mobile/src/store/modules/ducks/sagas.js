@@ -42,7 +42,7 @@ export function* listCheckins({ payload }) {
 
     yield put(Creators.listCheckinsSuccess(checkins));
   } catch (err) {
-    Alert.alert('Falha na busca dos alunos');
+    Alert.alert('Falha na busca dos checkins');
     yield put(Creators.listCheckinsFailure());
   }
 }
@@ -61,7 +61,7 @@ export function* listHelpOrders({ payload }) {
 
     yield put(Creators.listHelpOrdersSuccess(helpOrders));
   } catch (err) {
-    Alert.alert('Falha na busca dos alunos');
+    Alert.alert('Falha na busca das help orders');
     yield put(Creators.listHelpOrdersFailure());
   }
 }
