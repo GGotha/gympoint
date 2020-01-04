@@ -27,9 +27,15 @@ routes.post(
   "/students/mobile-authenticate/:id",
   SessionController.mobileAuthenticate
 );
+
 routes.post("/students/:id/checkins", CheckinController.store);
 routes.get("/students/:id/checkins", CheckinController.index);
+
 routes.post("/students/:id/help-orders", HelpOrdersController.store);
 routes.get("/students/:id/help-orders", HelpOrdersController.index);
+routes.get(
+  "/students/:id/help-orders/:idHelpOrder",
+  HelpOrdersController.indexHelpOrdersByIdAndStudentsById
+);
 
 module.exports = routes;

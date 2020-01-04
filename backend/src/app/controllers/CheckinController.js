@@ -37,13 +37,14 @@ class CheckinController {
       //Primeiro checkin do estudante
 
       if (data === undefined) {
-        await Checkins.create({
+        const checkinCreate = await Checkins.create({
           student_id: findForStore.id
         });
 
         return res.send({
           status: "success",
-          msg: "Checkin realizado com sucesso!"
+          msg: "Checkin realizado com sucesso!",
+          checkinCreate
         });
       }
 
@@ -55,13 +56,14 @@ class CheckinController {
         });
       }
 
-      await Checkins.create({
+      const checkinCreate = await Checkins.create({
         student_id: findForStore.id
       });
 
       return res.send({
         status: "success",
-        msg: "Checkin realizado com sucesso!"
+        msg: "Checkin realizado com sucesso!",
+        checkinCreate
       });
     } catch (err) {
       console.log(err);

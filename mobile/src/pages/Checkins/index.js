@@ -1,31 +1,46 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Alert } from 'react-native';
 import Header from '~/components/Header';
 import { Container, Content, List } from './styles';
 import Button from '~/components/Button';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import GerenciamentoCheckins from '~/components/GerenciamentoCheckins';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, connect } from 'react-redux';
 import { Creators } from '~/store/modules/ducks/reducers';
 import api from '~/services/api';
-import { format, parseISO, formatRelative } from 'date-fns';
-import pt from 'date-fns/locale/pt';
 
-export default function Checkins(props) {
-  const [checkins, setCheckins] = useState([]);
+function Checkins(props) {
+  // const [checkins, setCheckins] = useState([]);
   const [id, setId] = useState(useSelector(state => state.Reducers.profile.id));
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    async function getCheckins() {
-      const response = await api.get(`/students/${id}/checkins`);
-
-      setCheckins(response.data);
+    async function searchCheckins() {
+      dispatch(Creators.listCheckinsRequest(id));
     }
 
-    getCheckins();
+    searchCheckins();
   }, []);
+
+  const { checkins } = props;
+
+  async function handleNewCheckin() {
+    try {
+      const response = await api.post(`/students/${id}/checkins`);
+
+      if (response.data.status === 'error') {
+        return Alert.alert(response.data.msg);
+      }
+
+      dispatch(Creators.listCheckinsRequest(id));
+    } catch (err) {
+      console.tron.log(err);
+      return Alert.alert(
+        'Ocorreu um erro com o servidor, tente novamente mais tarde!',
+      );
+    }
+  }
 
   function handleLogout() {
     dispatch(Creators.signLeave());
@@ -36,12 +51,14 @@ export default function Checkins(props) {
       <Header />
       <Content>
         <Button onPress={() => handleLogout()}>Sair</Button>
-        <Button>Novo check-in</Button>
+        <Button onPress={() => handleNewCheckin()}>Novo check-in</Button>
 
         <List
           data={checkins}
           keyExtractor={item => String(item.id)}
-          renderItem={({ item }) => <GerenciamentoCheckins data={item} />}
+          renderItem={({ item, index }) => (
+            <GerenciamentoCheckins data={item} index={index} />
+          )}
         />
       </Content>
     </Container>
@@ -54,3 +71,7 @@ Checkins.navigationOptions = {
     <Icon name="edit-location" size={20} color={tintColor} />
   ),
 };
+
+export default connect(state => ({
+  checkins: state.Reducers.checkins,
+}))(Checkins);

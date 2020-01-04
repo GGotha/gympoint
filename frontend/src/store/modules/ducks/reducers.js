@@ -60,6 +60,10 @@ export default function reducers(state = INITIAL_STATE, action) {
         draft.token = null;
         draft.signed = false;
         draft.profile = null;
+        draft.students = [];
+        draft.planos = [];
+        draft.matriculas = [];
+        draft.planosDeAuxilio = [];
       });
 
     case Types.SUCCESS_LISTSTUDENTS:

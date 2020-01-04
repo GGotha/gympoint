@@ -1,11 +1,21 @@
-import React, { Fragment } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { View, Text } from 'react-native';
 
 import { Container, Main, CardHeader, StatusOrder } from './styles';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+import { formatRelative, parseISO, addHours } from 'date-fns';
+import pt from 'date-fns/locale/pt';
+
 export default function GerenciamentoHelpOrders(props) {
-  const teste = 0;
+  const updatedAtUtcToBrazil = addHours(parseISO(props.data.updatedAt), 2);
+
+  const formattedDate = useMemo(() => {
+    return formatRelative(updatedAtUtcToBrazil, new Date(), {
+      locale: pt,
+      addSuffix: true,
+    });
+  }, [props.data.updatedAt]);
 
   return (
     <Container>
@@ -14,25 +24,25 @@ export default function GerenciamentoHelpOrders(props) {
           <Icon
             name="check-circle"
             size={20}
-            color={teste === 1 ? '#999999' : '#42CB59'}
+            color={props.data.answer === null ? '#999999' : '#42CB59'}
           />
           <View style={{ marginLeft: 10 }}>
             <Text
-              style={teste === 1 ? { color: '#999999' } : { color: '#42CB59' }}>
-              {teste === 1 ? 'Sem resposta' : 'Respondido'}
+              style={
+                props.data.answer === null
+                  ? { color: '#999999' }
+                  : { color: '#42CB59' }
+              }>
+              {props.data.answer === null ? 'Sem resposta' : 'Respondido'}
             </Text>
           </View>
         </StatusOrder>
         <View>
-          <Text>Hoje às 14h</Text>
+          <Text>{formattedDate}</Text>
         </View>
       </CardHeader>
       <Main>
-        <Text>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem enim
-          cum quam porro, hic aut harum alias dolorem, vel laudantium, eveniet
-          non dolore ipsum. Expedita veniam quam doloremque soluta maiores?
-        </Text>
+        <Text>{props.data.question}</Text>
       </Main>
     </Container>
   );

@@ -119,6 +119,31 @@ Resposta: ${answer}
       })
     );
   }
+
+  async indexHelpOrdersByIdAndStudentsById(req, res) {
+    const id = req.params.id;
+    const idHelpOrder = req.params.idHelpOrder;
+
+    try {
+      const findHelpOrdersByIdAndStudentsByID = await HelpOrders.findOne({
+        where: { id: idHelpOrder, student_id: id }
+      });
+
+      if (findHelpOrdersByIdAndStudentsByID === null) {
+        return res.send({
+          status: "error",
+          msg: "Não existe foi possível encontrar essa help order ou esse aluno"
+        });
+      }
+
+      return res.send(findHelpOrdersByIdAndStudentsByID);
+    } catch (err) {
+      return res.send({
+        status: "error",
+        msg: "Ocorreu um erro no servidor, tente novamente mais tarde!"
+      });
+    }
+  }
 }
 
 module.exports = new HelpOrdersController();

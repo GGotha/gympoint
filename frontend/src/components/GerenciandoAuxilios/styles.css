@@ -1,0 +1,81 @@
+.divModalFormularioHelpOrders {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.divModalFormularioHelpOrders .modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 30px;
+  border-radius: 6px;
+  width: 30%;
+}
+
+.divModalFormularioHelpOrders p {
+  margin-top: 10px;
+  letter-spacing: 0.5px;
+  color: #666666;
+  line-height: 25px;
+}
+
+.divModalFormularioHelpOrders h3 {
+  font-size: 13px !important;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.divModalFormularioHelpOrders h3 {
+  font-size: 13px !important;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+
+.divModalFormularioHelpOrders form{
+  margin-top: 20px;
+}
+
+.divModalFormularioHelpOrders form textarea{
+  margin-top: 10px;
+  resize: none;
+  width: 100%;
+  height: 100px;
+  padding: 10px 0px 0px 10px;
+  border: 0.5px solid #999999;
+  font-size: 16px;
+}
+
+.divModalFormularioHelpOrders form label{
+  text-align: left;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.divModalFormularioHelpOrders form button{
+  margin-top: 15px;
+  width: 100%;
+  padding: 12px 5px;
+  background: #ee4d64;
+  border-radius: 4px;
+  outline: 0;
+  border: none;
+  color: white;
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.divModalFormularioHelpOrders form button:hover{
+  opacity: 0.7;
+  transition: all 1s ease-out;
+}

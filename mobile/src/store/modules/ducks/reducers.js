@@ -7,12 +7,20 @@ export const Types = {
   SUCCESS_AUTH: 'auth/SUCCESS',
   FAILURE_AUTH: 'auth/FAILURE',
   LEAVE_AUTH: 'auth/LEAVE',
+  REQUEST_CHECKIN: 'checkin/REQUEST',
+  SUCCESS_CHECKIN: 'checkin/SUCCESS',
+  FAILURE_CHECKIN: 'checkin/FAILURE',
+  REQUEST_HELPORDER: 'help_order/REQUEST',
+  SUCCESS_HELPORDER: 'help_order/SUCCESS',
+  FAILURE_HELPORDER: 'help_order/FAILURE',
 };
 
 const INITIAL_STATE = {
   signed: false,
   loading: false,
   profile: {},
+  checkins: [],
+  helpOrders: [],
 };
 
 //REDUCERS
@@ -35,9 +43,20 @@ export default function reducers(state = INITIAL_STATE, action) {
       });
     case Types.LEAVE_AUTH:
       return produce(state, draft => {
-        draft.token = null;
         draft.signed = false;
         draft.profile = null;
+        draft.checkins = [];
+        draft.helpOrders = [];
+      });
+
+    case Types.SUCCESS_CHECKIN:
+      return produce(state, draft => {
+        draft.checkins = action.checkins;
+      });
+
+    case Types.SUCCESS_HELPORDER:
+      return produce(state, draft => {
+        draft.helpOrders = action.helpOrders;
       });
 
     default:
@@ -64,5 +83,33 @@ export const Creators = {
 
   signLeave: () => ({
     type: Types.LEAVE_AUTH,
+  }),
+
+  listCheckinsRequest: id => ({
+    type: Types.REQUEST_CHECKIN,
+    payload: { id },
+  }),
+
+  listCheckinsSuccess: checkins => ({
+    type: Types.SUCCESS_CHECKIN,
+    checkins,
+  }),
+
+  listCheckinsFailure: () => ({
+    type: Types.FAILURE_CHECKIN,
+  }),
+
+  listHelpOrdersRequest: id => ({
+    type: Types.REQUEST_HELPORDER,
+    payload: { id },
+  }),
+
+  listHelpOrdersSuccess: helpOrders => ({
+    type: Types.SUCCESS_HELPORDER,
+    helpOrders,
+  }),
+
+  listHelpOrdersFailure: () => ({
+    type: Types.FAILURE_HELPORDER,
   }),
 };

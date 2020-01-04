@@ -4,7 +4,7 @@ import api from "~/services/api";
 import FormAwnserQuestionStudents from "./FormAwnserQuestionStudents";
 import { Container, Responder } from "./styles";
 import { toast } from "react-toastify";
-import "./styles.scss";
+import "./styles.css";
 
 function GerenciandoAuxilios(props) {
   const [helpOrderData, setHelpOrderData] = useState([]);

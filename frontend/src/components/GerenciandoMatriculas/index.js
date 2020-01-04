@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import api from "~/services/api";
 import history from "~/services/history";
 import { Apagar, Container, Editar } from "./styles";
-import "./styles.scss";
+import "./styles.css";
 
 function GerenciandoMatriculas(props) {
   const dispatch = useDispatch();
