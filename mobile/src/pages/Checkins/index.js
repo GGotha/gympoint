@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { withNavigationFocus } from 'react-navigation';
 import { View, Text, Alert } from 'react-native';
 import Header from '~/components/Header';
-import { Container, Content, List } from './styles';
+import { Container, Content, List, ViewList } from './styles';
 import Button from '~/components/Button';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import GerenciamentoCheckins from '~/components/GerenciamentoCheckins';
@@ -9,21 +10,20 @@ import { useDispatch, useSelector, connect } from 'react-redux';
 import { Creators } from '~/store/modules/ducks/reducers';
 import api from '~/services/api';
 
-function Checkins(props) {
-  // const [checkins, setCheckins] = useState([]);
-  const [id, setId] = useState(useSelector(state => state.Reducers.profile.id));
+function Checkins({ checkins, isFocused }) {
+  const id = useSelector(state => state.Reducers.profile.id);
 
   const dispatch = useDispatch();
 
+  async function searchCheckins() {
+    dispatch(Creators.listCheckinsRequest(id));
+  }
+
   useEffect(() => {
-    async function searchCheckins() {
-      dispatch(Creators.listCheckinsRequest(id));
+    if (isFocused) {
+      searchCheckins();
     }
-
-    searchCheckins();
-  }, []);
-
-  const { checkins } = props;
+  }, [isFocused]);
 
   async function handleNewCheckin() {
     try {
@@ -35,7 +35,6 @@ function Checkins(props) {
 
       dispatch(Creators.listCheckinsRequest(id));
     } catch (err) {
-      console.tron.log(err);
       return Alert.alert(
         'Ocorreu um erro com o servidor, tente novamente mais tarde!',
       );
@@ -50,16 +49,18 @@ function Checkins(props) {
     <Container>
       <Header />
       <Content>
-        <Button onPress={() => handleLogout()}>Sair</Button>
+        {/* <Button onPress={() => handleLogout()}>Sair</Button> */}
         <Button onPress={() => handleNewCheckin()}>Novo check-in</Button>
 
-        <List
-          data={checkins}
-          keyExtractor={item => String(item.id)}
-          renderItem={({ item, index }) => (
-            <GerenciamentoCheckins data={item} index={index} />
-          )}
-        />
+        <ViewList>
+          <List
+            data={checkins}
+            keyExtractor={item => String(item.id)}
+            renderItem={({ item, index }) => (
+              <GerenciamentoCheckins data={item} index={index} />
+            )}
+          />
+        </ViewList>
       </Content>
     </Container>
   );
@@ -72,6 +73,8 @@ Checkins.navigationOptions = {
   ),
 };
 
-export default connect(state => ({
-  checkins: state.Reducers.checkins,
-}))(Checkins);
+export default withNavigationFocus(
+  connect(state => ({
+    checkins: state.Reducers.checkins,
+  }))(Checkins),
+);

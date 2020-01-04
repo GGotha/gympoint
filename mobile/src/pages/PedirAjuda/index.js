@@ -1,52 +1,59 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { withNavigationFocus } from 'react-navigation';
 import { View, TouchableOpacity } from 'react-native';
+
 import Header from '~/components/Header';
-import { Container, Content, List } from './styles';
+import { Container, Content, List, ViewList } from './styles';
 import Button from '~/components/Button';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import GerenciamentoHelpOrders from '~/components/GerenciamentoHelpOrders';
 import { useDispatch, useSelector, connect } from 'react-redux';
 import { Creators } from '~/store/modules/ducks/reducers';
-import api from '~/services/api';
 import AsyncStorage from '@react-native-community/async-storage';
 
-function PedirAjuda(props) {
+function PedirAjuda({ navigation, isFocused, helpOrders }) {
   const dispatch = useDispatch();
 
   const id = useSelector(state => state.Reducers.profile.id);
 
-  useEffect(() => {
-    async function searchHelpOrders() {
-      dispatch(Creators.listHelpOrdersRequest(id));
-    }
-
-    searchHelpOrders();
-  }, []);
-
-  async function handleClick(helpOrderId) {
-    props.navigation.navigate('Resposta');
-    AsyncStorage.setItem('helpOrderId', JSON.stringify(helpOrderId));
+  async function searchHelpOrders() {
+    dispatch(Creators.listHelpOrdersRequest(id));
   }
 
-  const { helpOrders } = props;
+  useEffect(() => {
+    if (isFocused) {
+      searchHelpOrders();
+    }
+  }, [isFocused]);
+
+  async function handleClick(helpOrderId) {
+    navigation.navigate('Resposta');
+    AsyncStorage.setItem('helpOrderId', JSON.stringify(helpOrderId));
+  }
 
   return (
     <Container>
       <Header />
       <Content>
-        <Button onPress={() => props.navigation.navigate('NovoPedido')}>
+        <Button onPress={() => navigation.navigate('NovoPedido')}>
           Novo pedido de auxílio
         </Button>
 
-        <List
-          data={helpOrders}
-          keyExtractor={item => String(item.id)}
-          renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => handleClick(item.id)}>
-              <GerenciamentoHelpOrders data={item} />
-            </TouchableOpacity>
-          )}
-        />
+        <ViewList>
+          <List
+            data={helpOrders}
+            containerStyle={{
+              borderTopWidth: 0,
+              borderBottomWidth: 0,
+            }}
+            keyExtractor={item => String(item.id)}
+            renderItem={({ item }) => (
+              <TouchableOpacity onPress={() => handleClick(item.id)}>
+                <GerenciamentoHelpOrders data={item} />
+              </TouchableOpacity>
+            )}
+          />
+        </ViewList>
       </Content>
     </Container>
   );
@@ -61,6 +68,8 @@ PedirAjuda.navigationOptions = {
   headerTintColor: '#FFF',
 };
 
-export default connect(state => ({
-  helpOrders: state.Reducers.helpOrders,
-}))(PedirAjuda);
+export default withNavigationFocus(
+  connect(state => ({
+    helpOrders: state.Reducers.helpOrders,
+  }))(PedirAjuda),
+);

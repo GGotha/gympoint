@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Header from '~/components/Header';
-import Button from '~/components/Button';
 import { useSelector } from 'react-redux';
 
 import {
   Container,
   Content,
-  CardHeader,
   CardBox,
   Title,
   TextArea,
@@ -18,7 +16,7 @@ import {
 } from './styles';
 import AsyncStorage from '@react-native-community/async-storage';
 import api from '~/services/api';
-import { formatRelative, parseISO, addHours } from 'date-fns';
+import { formatRelative, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 
 export default function Resposta() {
@@ -33,20 +31,19 @@ export default function Resposta() {
         `/students/${id}/help-orders/${helpOrderId}`,
       );
 
-      const updatedAtUtcToBrazil = addHours(
-        parseISO(response.data.updatedAt),
-        2,
-      );
-
       const formatted = {
         ...response,
         question: response.data.question,
         answer:
           response.data.answer === null ? 'Sem resposta' : response.data.answer,
-        updatedAt: formatRelative(updatedAtUtcToBrazil, new Date(), {
-          locale: pt,
-          addSuffix: true,
-        }),
+        updatedAt: formatRelative(
+          parseISO(response.data.updatedAt),
+          new Date(),
+          {
+            locale: pt,
+            addSuffix: true,
+          },
+        ),
       };
 
       setHelpOrder(formatted);

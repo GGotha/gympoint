@@ -17,3 +17,7 @@ export const List = styled.FlatList.attrs({
   showVerticalScrollIndicator: false,
   marginTop: 30,
 })``;
+
+export const ViewList = styled.View`
+  height: ${height * 0.68};
+`;

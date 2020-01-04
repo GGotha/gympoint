@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, TextInput, Alert } from 'react-native';
+import React, { useState } from 'react';
+import { TouchableOpacity, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { Container, Content, InputPedirAjuda, Formulario } from './styles';
 import Header from '~/components/Header';

@@ -8,10 +8,8 @@ import { formatRelative, parseISO, addHours } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 
 export default function GerenciamentoHelpOrders(props) {
-  const updatedAtUtcToBrazil = addHours(parseISO(props.data.updatedAt), 2);
-
   const formattedDate = useMemo(() => {
-    return formatRelative(updatedAtUtcToBrazil, new Date(), {
+    return formatRelative(parseISO(props.data.updatedAt), new Date(), {
       locale: pt,
       addSuffix: true,
     });

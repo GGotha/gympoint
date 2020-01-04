@@ -61,7 +61,6 @@ export default (isSigned = false) =>
       },
       {
         initialRouteName: isSigned ? 'App' : 'Sign',
-        // initialRouteName: 'PedirAjuda',
       },
     ),
   );
