@@ -1,5 +1,6 @@
 const { Planos } = require("../models");
 const Yup = require("yup");
+const { sequelize } = require("../models");
 
 class PlanoController {
   async store(req, res) {
@@ -47,9 +48,17 @@ class PlanoController {
     const id = req.params.id;
 
     try {
+      await sequelize.query("SET FOREIGN_KEY_CHECKS = 0", {
+        raw: true
+      });
+
       const findForDelete = await Planos.destroy({ where: { id } });
 
-      if (findForDelete === 0) {
+      await sequelize.query("SET FOREIGN_KEY_CHECKS = 1", {
+        raw: true
+      });
+
+      if (!findForDelete) {
         return res.send({
           status: "error",
           msg: "Não é possível deletar um plano inexistente"
@@ -61,13 +70,6 @@ class PlanoController {
         msg: "Plano removido com sucesso!"
       });
     } catch (err) {
-      if (err.name === "SequelizeForeignKeyConstraintError") {
-        return res.send({
-          status: "error",
-          msg:
-            "Não é possível deletar a matrícula, porque existe algum aluno vinculado à matrícula"
-        });
-      }
       return res.send({
         status: "error",
         msg: "Ocorreu um erro no servidor, tente novamente mais tarde!"
@@ -97,6 +99,13 @@ class PlanoController {
 
     try {
       const findForUpdate = await Planos.findOne({ where: { id } });
+
+      if (!findForUpdate) {
+        return res.send({
+          status: "error",
+          msg: "Você não pode alterar um plano que não existe"
+        });
+      }
 
       await findForUpdate.update({ title, duration, price });
 

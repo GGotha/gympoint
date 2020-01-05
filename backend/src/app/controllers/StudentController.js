@@ -1,6 +1,7 @@
 const { Students } = require("../models");
 const { Users } = require("../models");
 const Yup = require("yup");
+const { sequelize } = require("../models");
 
 class StudentController {
   async store(req, res) {
@@ -140,7 +141,7 @@ class StudentController {
     try {
       const findStudentById = await Students.findOne({ where: { id } });
 
-      if (findStudentById === null) {
+      if (!findStudentById) {
         return res.send({
           status: "error",
           msg: "Não é possível alterar um aluno inexistente"
@@ -202,7 +203,17 @@ class StudentController {
     const id = req.params.id;
 
     try {
-      const findForDelete = await Students.destroy({ where: { id } });
+      await sequelize.query("SET FOREIGN_KEY_CHECKS = 0", {
+        raw: true
+      });
+
+      const findForDelete = await Students.destroy({
+        where: { id }
+      });
+
+      await sequelize.query("SET FOREIGN_KEY_CHECKS = 1", {
+        raw: true
+      });
 
       if (!findForDelete) {
         return res.send({
@@ -216,14 +227,6 @@ class StudentController {
         msg: "Aluno removido com sucesso!"
       });
     } catch (err) {
-      if (err.name === "SequelizeForeignKeyConstraintError") {
-        return res.send({
-          status: "error",
-          msg:
-            "Não é possível deletar o aluno, porque existe alguma matrícula vinculado ao aluno ou alguma ordem de ajuda em aberta"
-        });
-      }
-
       return res.send({
         status: "error",
         msg: "Ocorreu um erro no servidor, tente novamente mais tarde!"

@@ -129,7 +129,7 @@ Resposta: ${answer}
         where: { id: idHelpOrder, student_id: id }
       });
 
-      if (findHelpOrdersByIdAndStudentsByID === null) {
+      if (!findHelpOrdersByIdAndStudentsByID) {
         return res.send({
           status: "error",
           msg: "Não existe foi possível encontrar essa help order ou esse aluno"

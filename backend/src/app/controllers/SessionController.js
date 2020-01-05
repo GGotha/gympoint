@@ -23,10 +23,10 @@ class SessionController {
     });
 
     try {
-      if (user === null || !(await user.checkPassword(password))) {
+      if (!user || !(await user.checkPassword(password))) {
         return res.status(422).json({
           status: "error",
-          msg: "Usuário ou senha inválidos"
+          msg: "Usuário ou senha inválido"
         });
       }
 
@@ -57,7 +57,7 @@ class SessionController {
         attributes: ["id", "name", "email", "age", "weight", "height"]
       });
 
-      if (student === null) {
+      if (!student) {
         return res.send({
           status: "error",
           msg: "Não foi possível encontrar seu cadastro!"
@@ -70,7 +70,6 @@ class SessionController {
         student
       });
     } catch (err) {
-      console.log(err);
       return res.send({
         status: "error",
         msg: "Ocorreu um erro no servidor, tente novamente mais tarde!"

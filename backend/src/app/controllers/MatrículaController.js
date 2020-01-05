@@ -3,6 +3,7 @@ const { parseISO, addMonths, isBefore, addHours } = require("date-fns");
 const { pt } = require("date-fns/locale");
 const Mail = require("../../lib/Mail");
 const Yup = require("yup");
+const { sequelize } = require("../models");
 
 class MatrículaController {
   async store(req, res) {
@@ -100,9 +101,17 @@ class MatrículaController {
     const id = req.params.id;
 
     try {
+      await sequelize.query("SET FOREIGN_KEY_CHECKS = 0", {
+        raw: true
+      });
+
       const findForDelete = await Matrículas.destroy({ where: { id } });
 
-      if (findForDelete === 0) {
+      await sequelize.query("SET FOREIGN_KEY_CHECKS = 1", {
+        raw: true
+      });
+
+      if (!findForDelete) {
         return res.send({
           status: "error",
           msg: "Não é possível deletar uma matrícula inexistente"
@@ -144,7 +153,7 @@ class MatrículaController {
     try {
       const findForUpdate = await Matrículas.findOne({ where: { id } });
 
-      if (findForUpdate === null) {
+      if (!findForUpdate) {
         return res.send({
           status: "error",
           msg: "Você não pode alterar uma matrícula que não existe"
