@@ -60,3 +60,5 @@ yarn sequelize db:seed:all
 /students/:id/help-orders - GET
 /students/:id/help-orders/:idHelpOrder - GET
 ```
+
+### O mobile foi apenas testado no android
