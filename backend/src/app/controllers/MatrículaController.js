@@ -73,7 +73,6 @@ class MatrículaController {
         msg: "Matrícula realizada com sucesso!"
       });
     } catch (err) {
-      console.log(err);
       return res.send({
         status: "error",
         msg: "Ocorreu um erro no servidor, tente novamente mais tarde!"
@@ -99,15 +98,7 @@ class MatrículaController {
     const id = req.params.id;
 
     try {
-      await sequelize.query("SET FOREIGN_KEY_CHECKS = 0", {
-        raw: true
-      });
-
       const findForDelete = await Matrículas.destroy({ where: { id } });
-
-      await sequelize.query("SET FOREIGN_KEY_CHECKS = 1", {
-        raw: true
-      });
 
       if (!findForDelete) {
         return res.send({
@@ -166,7 +157,6 @@ class MatrículaController {
         msg: "Matrícula alterada com sucesso!"
       });
     } catch (err) {
-      console.log(err);
       return res.send({
         status: "error",
         msg: "Ocorreu um erro no servidor, tente novamente mais tarde!"

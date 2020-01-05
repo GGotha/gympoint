@@ -50,7 +50,6 @@ class CheckinController {
         checkinCreate
       });
     } catch (err) {
-      console.log(err);
       return res.send({
         status: "error",
         msg: "Ocorreu um erro no servidor, tente novamente mais tarde!"

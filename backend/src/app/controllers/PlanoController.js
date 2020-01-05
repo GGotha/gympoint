@@ -48,15 +48,7 @@ class PlanoController {
     const id = req.params.id;
 
     try {
-      await sequelize.query("SET FOREIGN_KEY_CHECKS = 0", {
-        raw: true
-      });
-
       const findForDelete = await Planos.destroy({ where: { id } });
-
-      await sequelize.query("SET FOREIGN_KEY_CHECKS = 1", {
-        raw: true
-      });
 
       if (!findForDelete) {
         return res.send({

@@ -191,7 +191,6 @@ class StudentController {
         msg: "Aluno alterado com sucesso!"
       });
     } catch (err) {
-      console.log(err.name);
       return res.send({
         status: "error",
         msg: "Ocorreu um erro com o servidor, tente novamente mais tarde!"
@@ -203,16 +202,8 @@ class StudentController {
     const id = req.params.id;
 
     try {
-      await sequelize.query("SET FOREIGN_KEY_CHECKS = 0", {
-        raw: true
-      });
-
       const findForDelete = await Students.destroy({
         where: { id }
-      });
-
-      await sequelize.query("SET FOREIGN_KEY_CHECKS = 1", {
-        raw: true
       });
 
       if (!findForDelete) {
