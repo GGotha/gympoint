@@ -49,7 +49,7 @@ function Checkins({ checkins, isFocused }) {
     <Container>
       <Header />
       <Content>
-        {/* <Button onPress={() => handleLogout()}>Sair</Button> */}
+        <Button onPress={() => handleLogout()}>Sair</Button>
         <Button onPress={() => handleNewCheckin()}>Novo check-in</Button>
 
         <ViewList>

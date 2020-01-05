@@ -52,16 +52,20 @@ function GerenciandoAuxilios(props) {
             </tr>
           </thead>
           <tbody>
-            {planosDeAuxilio.map(auxilios => (
-              <tr key={auxilios.id}>
-                <td>{auxilios.Student.name}</td>
-                <td width={10}>
-                  <Responder onClick={() => openModal(auxilios.id)}>
-                    responder
-                  </Responder>
-                </td>
-              </tr>
-            ))}
+            {planosDeAuxilio.length !== 0 ? (
+              planosDeAuxilio.map(auxilios => (
+                <tr key={auxilios.id}>
+                  <td>{auxilios.Student.name}</td>
+                  <td width={10}>
+                    <Responder onClick={() => openModal(auxilios.id)}>
+                      responder
+                    </Responder>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <h5>Sem ordens de ajuda cadastradas</h5>
+            )}
           </tbody>
         </table>
       </Container>

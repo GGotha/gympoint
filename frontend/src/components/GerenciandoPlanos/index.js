@@ -9,25 +9,31 @@ import { Apagar, Container, Editar } from "./styles";
 function GerenciandoPlanos(props) {
   const dispatch = useDispatch();
 
-  function handleEdit(planoId) {
-    history.push(`/editar-plano/${planoId}`);
+  function handleEdit(plano) {
+    history.push(`/editar-plano/${plano.id}`);
   }
 
-  async function handleDelete(planoId) {
-    try {
-      const response = await api.delete(`planos/${planoId}`);
+  async function handleDelete(plano) {
+    if (
+      window.confirm(
+        `Você tem certeza que deseja deletar o plano ${plano.title}?`
+      )
+    ) {
+      try {
+        const response = await api.delete(`planos/${plano.id}`);
 
-      if (response.data.status === "error") {
-        return toast.error(response.data.msg);
+        if (response.data.status === "error") {
+          return toast.error(response.data.msg);
+        }
+
+        dispatch({ type: "plano/REMOVE", id: plano.id });
+
+        toast.success("Plano removido com sucesso!");
+      } catch (err) {
+        return toast.error(
+          "Ocorreu um erro com o servidor, tente novamente mais tarde!"
+        );
       }
-
-      dispatch({ type: "plano/REMOVE", id: planoId });
-
-      toast.success("Plano removido com sucesso!");
-    } catch (err) {
-      return toast.error(
-        "Ocorreu um erro com o servidor, tente novamente mais tarde!"
-      );
     }
   }
 
@@ -46,19 +52,23 @@ function GerenciandoPlanos(props) {
           </tr>
         </thead>
         <tbody>
-          {planos.map(planos => (
-            <tr key={planos.id} className="borderBottomGrey">
-              <td>{planos.title}</td>
-              <td className="text-center">{planos.duration}</td>
-              <td className="text-center">{planos.price}</td>
-              <td width={10}>
-                <Editar onClick={() => handleEdit(planos.id)}>editar</Editar>
-              </td>
-              <td width={10}>
-                <Apagar onClick={() => handleDelete(planos.id)}>apagar</Apagar>
-              </td>
-            </tr>
-          ))}
+          {planos.length !== 0 ? (
+            planos.map(planos => (
+              <tr key={planos.id} className="borderBottomGrey">
+                <td>{planos.title}</td>
+                <td className="text-center">{planos.duration}</td>
+                <td className="text-center">{planos.price}</td>
+                <td width={10}>
+                  <Editar onClick={() => handleEdit(planos)}>editar</Editar>
+                </td>
+                <td width={10}>
+                  <Apagar onClick={() => handleDelete(planos)}>apagar</Apagar>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <h5>Sem planos cadastrados</h5>
+          )}
         </tbody>
       </table>
     </Container>

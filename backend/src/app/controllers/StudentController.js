@@ -204,7 +204,7 @@ class StudentController {
     try {
       const findForDelete = await Students.destroy({ where: { id } });
 
-      if (findForDelete === 0) {
+      if (!findForDelete) {
         return res.send({
           status: "error",
           msg: "Não é possível deletar um aluno inexistente"
@@ -220,7 +220,7 @@ class StudentController {
         return res.send({
           status: "error",
           msg:
-            "Não é possível deletar o aluno, porque existe alguma matrícula vinculado ao aluno"
+            "Não é possível deletar o aluno, porque existe alguma matrícula vinculado ao aluno ou alguma ordem de ajuda em aberta"
         });
       }
 

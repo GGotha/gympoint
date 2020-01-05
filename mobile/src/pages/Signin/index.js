@@ -7,7 +7,7 @@ import Background from '~/components/Background';
 import Button from '~/components/Button';
 import styles, { Container, Formulario } from './styles';
 import api from '~/services/api';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Creators } from '~/store/modules/ducks/reducers';
 
 import logo from '~/assets/logo.png';
@@ -15,6 +15,8 @@ import logo from '~/assets/logo.png';
 export default function Signin() {
   const dispatch = useDispatch();
   const [id, setId] = useState('');
+
+  const loading = useSelector(state => state.Reducers.loading);
 
   async function handleSubmit() {
     dispatch(Creators.signInRequest(id));
@@ -32,7 +34,9 @@ export default function Signin() {
         onChangeText={setId}
       />
 
-      <Button onPress={() => handleSubmit()}>Entrar no sistema</Button>
+      <Button onPress={() => handleSubmit()}>
+        {loading ? 'Loading...' : 'Entrar no sistema'}
+      </Button>
     </Container>
   );
 }

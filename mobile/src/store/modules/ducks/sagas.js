@@ -1,9 +1,7 @@
 import { Alert } from 'react-native';
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 import api from '~/services/api';
-import { useSelector } from 'react-redux';
 
-// import history from "~/services/history";
 import { Creators, Types } from './reducers';
 
 export function* sagasAuth({ payload }) {
@@ -16,10 +14,6 @@ export function* sagasAuth({ payload }) {
     );
 
     const { student } = response.data;
-
-    if (response.data.status === 'error') {
-      return Alert.alert(response.data.msg);
-    }
 
     yield put(Creators.signInSuccess(student));
   } catch (err) {

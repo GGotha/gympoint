@@ -17,10 +17,6 @@ export function* sagasAuth({ payload }) {
 
     const { token, user } = response.data;
 
-    if (response.data.status === "error") {
-      return toast.error(response.data.msg);
-    }
-
     api.defaults.headers.Authorization = `Bearer ${token}`;
 
     yield put(Creators.signInSuccess(token, user));

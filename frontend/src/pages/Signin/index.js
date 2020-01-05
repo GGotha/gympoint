@@ -1,12 +1,20 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import logo from "~/assets/logo.png";
 import { Creators as AuthActions } from "~/store/modules/ducks/reducers";
-import { Container, DivLogo, Formulario, InputUnform } from "./styles";
+import {
+  Container,
+  DivLogo,
+  Formulario,
+  InputUnform,
+  Background
+} from "./styles";
 
 export default function Signin() {
   const dispatch = useDispatch();
+
+  const loading = useSelector(state => state.Reducers.loading);
 
   function handleSubmit({ email, password }) {
     try {
@@ -17,7 +25,7 @@ export default function Signin() {
   }
 
   return (
-    <div style={{ minHeight: "100vh", background: "#EE4D64" }}>
+    <Background>
       <Container>
         <Formulario onSubmit={handleSubmit}>
           <DivLogo>
@@ -37,10 +45,12 @@ export default function Signin() {
             placeholder="Sua senha secreta"
           />
           <div>
-            <button type="submit">Entrar no sistema</button>
+            <button type="submit">
+              {loading ? "Loading..." : "Entrar no sistema"}
+            </button>
           </div>
         </Formulario>
       </Container>
-    </div>
+    </Background>
   );
 }

@@ -11,25 +11,27 @@ import "./styles.css";
 function GerenciandoMatriculas(props) {
   const dispatch = useDispatch();
 
-  function handleEdit(matriculaId) {
-    history.push(`/editar-matricula/${matriculaId}`);
+  function handleEdit(matricula) {
+    history.push(`/editar-matricula/${matricula.id}`);
   }
 
-  async function handleDelete(matriculaId) {
-    try {
-      const response = await api.delete(`matriculas/${matriculaId}`);
+  async function handleDelete(matricula) {
+    if (window.confirm(`Você tem certeza que deseja deletar esta matrícula?`)) {
+      try {
+        const response = await api.delete(`matriculas/${matricula.id}`);
 
-      if (response.data.status === "error") {
-        return toast.error(response.data.msg);
+        if (response.data.status === "error") {
+          return toast.error(response.data.msg);
+        }
+
+        dispatch({ type: "matricula/REMOVE", id: matricula.id });
+
+        toast.success("Matricula removida com sucesso!");
+      } catch (err) {
+        return toast.error(
+          "Ocorreu um erro com o servidor, tente novamente mais tarde!"
+        );
       }
-
-      dispatch({ type: "matricula/REMOVE", id: matriculaId });
-
-      toast.success("Matricula removida com sucesso!");
-    } catch (err) {
-      return toast.error(
-        "Ocorreu um erro com o servidor, tente novamente mais tarde!"
-      );
     }
   }
 
@@ -48,31 +50,33 @@ function GerenciandoMatriculas(props) {
           </tr>
         </thead>
         <tbody>
-          {matriculas.map(matriculas => (
-            <tr key={matriculas.id} className="borderBottomGrey">
-              <td>{matriculas.Student.name}</td>
-              <td className="text-center">{matriculas.Plano.title}</td>
-              <td className="text-center">{matriculas.start_date}</td>
-              <td className="text-center">{matriculas.end_date}</td>
-              <td className="text-center">
-                {matriculas.fl_ativo === 0 ? (
-                  <FaRegCheckCircle className="color-grey" />
-                ) : (
-                  <FaRegCheckCircle className="color-green" />
-                )}
-              </td>
-              <td width={10}>
-                <Editar onClick={() => handleEdit(matriculas.id)}>
-                  editar
-                </Editar>
-              </td>
-              <td width={10}>
-                <Apagar onClick={() => handleDelete(matriculas.id)}>
-                  apagar
-                </Apagar>
-              </td>
-            </tr>
-          ))}
+          {matriculas.length !== 0 ? (
+            matriculas.map(matriculas => (
+              <tr key={matriculas.id} className="borderBottomGrey">
+                <td>{matriculas.Student.name}</td>
+                <td className="text-center">{matriculas.Plano.title}</td>
+                <td className="text-center">{matriculas.start_date}</td>
+                <td className="text-center">{matriculas.end_date}</td>
+                <td className="text-center">
+                  {matriculas.fl_ativo === 0 ? (
+                    <FaRegCheckCircle className="color-grey" />
+                  ) : (
+                    <FaRegCheckCircle className="color-green" />
+                  )}
+                </td>
+                <td width={10}>
+                  <Editar onClick={() => handleEdit(matriculas)}>editar</Editar>
+                </td>
+                <td width={10}>
+                  <Apagar onClick={() => handleDelete(matriculas)}>
+                    apagar
+                  </Apagar>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <h4>Sem matrículas cadastradas</h4>
+          )}
         </tbody>
       </table>
     </Container>

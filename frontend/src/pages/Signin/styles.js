@@ -66,3 +66,8 @@ export const DivLogo = styled.div`
     width: 50%;
   }
 `;
+
+export const Background = styled.div`
+  min-height: 100vh;
+  background: #ee4d64;
+`;

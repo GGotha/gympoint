@@ -19,7 +19,7 @@ class CheckinController {
 
       const dataAtual = new Date();
 
-      const dataInicio = subDays(today, 7);
+      const dataInicio = subDays(dataAtual, 7);
 
       const findCheckin = await Checkins.findAll({
         where: {

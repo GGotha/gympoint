@@ -120,6 +120,7 @@ export default function reducers(state = INITIAL_STATE, action) {
         if (productIndex >= 0) {
           draft.planosDeAuxilio.splice(productIndex, 1);
         }
+        draft.loading = false;
       });
 
     default:
