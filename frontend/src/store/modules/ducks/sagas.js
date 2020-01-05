@@ -15,6 +15,10 @@ export function* sagasAuth({ payload }) {
       password
     });
 
+    if (response.data.status === "error") {
+      throw new Error();
+    }
+
     const { token, user } = response.data;
 
     api.defaults.headers.Authorization = `Bearer ${token}`;

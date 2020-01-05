@@ -10,6 +10,14 @@ import {
   InputUnform,
   Background
 } from "./styles";
+import * as Yup from "yup";
+
+const schema = Yup.object().shape({
+  email: Yup.string()
+    .email("Insira um email válido")
+    .required("O email é necessário"),
+  password: Yup.string().required("A senha é necessária")
+});
 
 export default function Signin() {
   const dispatch = useDispatch();
@@ -27,7 +35,7 @@ export default function Signin() {
   return (
     <Background>
       <Container>
-        <Formulario onSubmit={handleSubmit}>
+        <Formulario schema={schema} onSubmit={handleSubmit}>
           <DivLogo>
             <img src={logo} alt="logo" />
           </DivLogo>
