@@ -13,7 +13,8 @@ import {
   FormularioCadastroAlunos,
   InputAluno,
   InputDtTermino,
-  InputPlanoDtInicio,
+  InputDtInicio,
+  InputPlanos,
   InputValorFinal,
   QuadroDeCadastros
 } from "./styles";
@@ -21,17 +22,9 @@ import {
 export default function CadastroMatriculas() {
   const [students, setStudents] = useState([]);
   const [planos, setPlanos] = useState([]);
-  const [dates, setDates] = useState([]);
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [duration, setDuration] = useState([]);
-  const [durationPro, setDurationPro] = useState([]);
-  const [endDate, setEndDate] = useState("");
-  const [finalPrice, setFinalPrice] = useState("");
-
-  const dateFormatted = useMemo(
-    () => format(currentDate, "dd/MM/yyyy", { locale: pt }),
-    [currentDate]
-  );
+  const [matricula, setMatricula] = useState({ plano: "", start_date: "" });
+  const [total, setTotal] = useState(0);
+  const [endDate, setEndDate] = useState(0);
 
   useEffect(() => {
     async function getStudents() {
@@ -48,46 +41,27 @@ export default function CadastroMatriculas() {
     async function getPlanos() {
       const response = await api.get("planos");
 
-      const dataDuration = response.data.map(duration => ({
-        id: duration.id,
-        price: duration.price,
-        duration: duration.duration
-      }));
+      const dataPlanos = response.data;
 
-      setDuration(dataDuration);
-
-      setPlanos(response.data);
-    }
-
-    async function getCurrentDate() {
-      const dates = [{ id: 1, title: dateFormatted, value: new Date() }];
-
-      setDates(dates);
+      setPlanos(dataPlanos);
     }
 
     getStudents();
     getPlanos();
-    getCurrentDate();
   }, []);
-
-  useEffect(() => {
-    setEndDate(format(addMonths(currentDate, durationPro), "dd/MM/yyyy"));
-  }, [durationPro]);
 
   async function handleSubmit(data) {
     const dados = {
       student_id: data.aluno,
       plan_id: data.plano,
-      start_date: addMinutes(currentDate, 1)
+      start_date: matricula.start_date
     };
 
     try {
       const response = await api.post("matriculas", dados);
 
       if (response.data.status === "error") {
-        return toast.error(
-          "Ocorreu um erro no servidor, tente novamente mais tarde!"
-        );
+        return toast.error(response.data.msg);
       }
 
       toast.success("Matrícula adicionada com sucesso!");
@@ -98,12 +72,31 @@ export default function CadastroMatriculas() {
     }
   }
 
-  function teste(e) {
-    let teste = duration.find(p => p.id == e.target.value);
-
-    setDurationPro(teste.duration);
-    setFinalPrice(teste.price);
+  function handleDateChange(e) {
+    setMatricula({
+      ...matricula,
+      start_date: new Date(e.target.value)
+    });
   }
+
+  function handlePlanChange(e) {
+    const idPlano = Number(e.target.value);
+    const planoSelecionado = planos.find(x => x.id === idPlano);
+    setMatricula({ ...matricula, plano: planoSelecionado });
+  }
+
+  useEffect(() => {
+    if (matricula.plano && matricula.start_date) {
+      setEndDate(
+        format(
+          addMonths(matricula.start_date, matricula.plano.duration),
+          "yyyy'-'MM'-'dd"
+        )
+      );
+
+      setTotal(matricula.plano.duration * matricula.plano.price);
+    }
+  }, [matricula.plano, matricula.start_date]);
 
   return (
     <div>
@@ -130,6 +123,7 @@ export default function CadastroMatriculas() {
           <FormularioCadastroAlunos
             id="formularioCadastroMatriculas"
             onSubmit={handleSubmit}
+            initialData={matricula}
           >
             <label htmlFor="title">Aluno</label>
             <InputAluno
@@ -141,27 +135,27 @@ export default function CadastroMatriculas() {
             <div>
               <div>
                 <label htmlFor="duracao">Plano</label>
-                <InputPlanoDtInicio
-                  onChange={e => teste(e)}
+                <InputPlanos
+                  onChange={handlePlanChange}
                   name="plano"
                   placeholder="Selecione o plano"
-                  // onChange={e => setPlanos(e.target.value)}
                   options={planos}
                 />
               </div>
               <div>
                 <label htmlFor="preco-mensal">Data de ínicio</label>
-                <InputPlanoDtInicio
-                  name="data-inicio"
-                  placeholder="Escolha a data"
-                  options={dates}
+                <InputDtInicio
+                  name="start_date"
+                  type="date"
+                  placeholder="Chose the date"
+                  onChange={handleDateChange}
                 />
               </div>
 
               <div>
                 <label htmlFor="preco-total">Data de término</label>
                 <InputDtTermino
-                  type="text"
+                  type="date"
                   name="preco-total"
                   disabled
                   value={endDate}
@@ -173,7 +167,7 @@ export default function CadastroMatriculas() {
                   type="text"
                   name="totalPrice"
                   disabled
-                  value={finalPrice}
+                  value={total}
                   prefix="R$"
                   thousandSeparator={"."}
                   decimalSeparator={","}

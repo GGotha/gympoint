@@ -20,129 +20,127 @@ import {
 } from "./styles";
 
 export default function EditarMatriculas() {
-  const [students, setStudents] = useState([]);
-  const [studentId, setStudentId] = useState("");
-  const [dataInicio, setDataInicio] = useState("");
+  const [matriculas, setMatriculas] = useState({
+    plano: "",
+    start_date: new Date()
+  });
   const [planos, setPlanos] = useState([]);
-  const [planoId, setPlanoId] = useState("");
-  const [date, setDate] = useState([]);
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [durationPro, setDurationPro] = useState([]);
-  const [endDate, setEndDate] = useState("");
-  const [finalPrice, setFinalPrice] = useState("");
-  const [duration, setDuration] = useState("");
-  const [dataInicioNotFormatted, setDataInicioNotFormatted] = useState(
-    new Date()
-  );
+  const [students, setStudents] = useState([]);
+  const [studentIdMatricula, setStudentIdMatricula] = useState([]);
+  const [planoIdMatricula, setPlanoIdMatricula] = useState([]);
+  const [startDateMatricula, setStartDateMatricula] = useState(0);
+  const [endDateMatricula, setEndDateMatricula] = useState(0);
+  const [priceMatricula, setPriceMatricula] = useState(0);
 
-  const dateFormatted = useMemo(
-    () => format(currentDate, "dd/MM/yyyy", { locale: pt }),
-    [currentDate]
-  );
+  var getUrlAndSplit = window.location.pathname.split("/");
+  var id = getUrlAndSplit[2];
+
+  async function getMatriculas() {
+    const response = await api.get(`matriculas/${id}`);
+
+    setStudentIdMatricula(response.data.student_id);
+    setPlanoIdMatricula(response.data.plan_id);
+    setStartDateMatricula(
+      format(parseISO(response.data.start_date), "yyyy'-'MM'-'dd")
+    );
+    setEndDateMatricula(
+      format(parseISO(response.data.end_date), "yyyy'-'MM'-'dd")
+    );
+    setPriceMatricula(response.data.Plano.duration * response.data.Plano.price);
+    setMatriculas(response.data);
+  }
+
+  async function getStudents() {
+    const response = await api.get("students");
+
+    const data = response.data.map(students => ({
+      ...students,
+      title: students.name
+    }));
+
+    setStudents(data);
+  }
+
+  async function getPlanos() {
+    const response = await api.get("planos");
+
+    const dataPlanos = response.data;
+
+    setPlanos(dataPlanos);
+  }
 
   useEffect(() => {
-    var getUrlAndSplit = window.location.pathname.split("/");
-    var id = getUrlAndSplit[2];
-
-    async function getMatriculas() {
-      const response = await api.get(`matriculas/${id}`);
-
-      const dados = response.data;
-
-      const formattedData = format(
-        parseISO(response.data.start_date),
-        "dd/MM/yyyy"
-      );
-
-      setPlanoId(dados.Plano.id);
-      setStudentId(dados.Student.id);
-
-      setEndDate(
-        format(
-          addMonths(parseISO(response.data.start_date), dados.Plano.duration),
-          "dd/MM/yyyy"
-        )
-      );
-
-      setFinalPrice(dados.Plano.price);
-
-      setDataInicioNotFormatted(parseISO(response.data.start_date));
-      setDataInicio(formattedData);
-    }
-
-    async function getStudents() {
-      const response = await api.get("students");
-
-      const data = response.data.map(students => ({
-        ...students,
-        title: students.name
-      }));
-
-      setStudents(data);
-    }
-
-    async function getPlanos() {
-      const response = await api.get("planos");
-
-      const dataDuration = response.data.map(duration => ({
-        id: duration.id,
-        price: duration.price,
-        duration: duration.duration
-      }));
-
-      setDuration(dataDuration);
-
-      setPlanos(response.data);
-    }
-
-    async function getCurrentDate() {
-      const dates = [{ id: 1, title: dateFormatted }];
-
-      setDate(dates);
-    }
-
     getMatriculas();
     getStudents();
     getPlanos();
-    getCurrentDate();
   }, []);
 
   useEffect(() => {
-    setEndDate(
-      format(addMonths(dataInicioNotFormatted, durationPro), "dd/MM/yyyy")
-    );
-  }, [durationPro]);
+    if (planoIdMatricula && startDateMatricula) {
+      setEndDateMatricula(
+        format(
+          addMonths(
+            parseISO(matriculas.start_date),
+            matriculas.duration || matriculas.Plano.duration
+          ),
+          "yyyy'-'MM'-'dd"
+        )
+      );
 
-  function teste(e) {
-    let teste = duration.find(p => p.id == e.target.value);
+      if (matriculas.duration !== undefined) {
+        setPriceMatricula(matriculas.duration * matriculas.price);
+      }
+    }
+  }, [planoIdMatricula, matriculas.start_date]);
 
-    setPlanoId(teste.id);
+  function handleStudentChange(e) {
+    setStudentIdMatricula(e.target.value);
 
-    setDurationPro(teste.duration);
-    setFinalPrice(teste.price);
+    setMatriculas({
+      ...matriculas,
+      student_id: Number(e.target.value)
+    });
+  }
+
+  function handleDateChange(e) {
+    setStartDateMatricula(e.target.value);
+
+    setMatriculas({
+      ...matriculas,
+      start_date: e.target.value
+    });
+  }
+
+  function handlePlanChange(e) {
+    const idPlano = Number(e.target.value);
+    const planoSelecionado = planos.find(x => x.id === idPlano);
+
+    setPlanoIdMatricula(planoSelecionado.id);
+    setMatriculas({
+      ...matriculas,
+      plan_id: planoSelecionado.id,
+      price: planoSelecionado.price,
+      duration: planoSelecionado.duration
+    });
   }
 
   async function handleSubmit() {
-    var getUrlAndSplit = window.location.pathname.split("/");
-    var id = getUrlAndSplit[2];
-
     const dados = {
-      student_id: studentId,
-      plan_id: planoId
+      student_id: matriculas.student_id,
+      plan_id: matriculas.plan_id,
+      start_date: parseISO(matriculas.start_date)
     };
 
     try {
       const response = await api.put(`matriculas/${id}`, dados);
 
       if (response.data.status === "error") {
-        return toast.error(
-          "Ocorreu um erro no servidor, tente novamente mais tarde!"
-        );
+        return toast.error(response.data.msg);
       }
 
       toast.success("Matrícula alterada com sucesso!");
     } catch (err) {
-      toast.error(
+      return toast.error(
         "Ocorreu um erro com o servidor, tente novamente mais tarde!"
       );
     }
@@ -176,39 +174,40 @@ export default function EditarMatriculas() {
           >
             <label htmlFor="title">Aluno</label>
             <InputAluno
-              onChange={e => setStudentId(e.target.value)}
-              id="teste"
-              name="title"
+              name="student"
               options={students}
-              value={studentId}
+              value={studentIdMatricula}
+              onChange={handleStudentChange}
             />
             <div>
               <div>
                 <label htmlFor="duracao">Plano</label>
                 <InputPlano
-                  onChange={e => teste(e)}
                   name="plano"
                   placeholder="Selecione o plano"
                   options={planos}
-                  value={planoId}
+                  value={planoIdMatricula}
+                  onChange={handlePlanChange}
                 />
               </div>
               <div>
                 <label htmlFor="preco-mensal">Data de ínicio</label>
                 <InputDtInicio
                   name="preco-mensal"
+                  type="date"
                   placeholder="Escolha a data"
-                  value={dataInicio}
+                  value={startDateMatricula}
+                  onChange={handleDateChange}
                 />
               </div>
 
               <div>
                 <label htmlFor="preco-total">Data de término</label>
                 <InputDtTermino
-                  type="text"
+                  type="date"
                   name="preco-total"
+                  value={endDateMatricula}
                   disabled
-                  value={endDate}
                 />
               </div>
               <div>
@@ -217,7 +216,7 @@ export default function EditarMatriculas() {
                   type="text"
                   name="preco-total"
                   disabled
-                  value={finalPrice}
+                  value={priceMatricula}
                   prefix="R$"
                   thousandSeparator={"."}
                   decimalSeparator={","}

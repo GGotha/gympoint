@@ -85,12 +85,10 @@ class MatrículaController {
       await Matrículas.findAll({
         include: [
           {
-            model: Planos,
-            attributes: ["title"]
+            model: Planos
           },
           {
-            model: Students,
-            attributes: ["name"]
+            model: Students
           }
         ]
       })
@@ -141,14 +139,15 @@ class MatrículaController {
       plan_id: Yup.number()
         .integer()
         .positive()
-        .required()
+        .required(),
+      start_date: Yup.date().required()
     });
 
     if (!(await schema.isValid(req.body))) {
       return res.json({ status: "error", msg: "Falha na validação" });
     }
 
-    const { student_id, plan_id } = req.body;
+    const { student_id, plan_id, start_date } = req.body;
 
     try {
       const findForUpdate = await Matrículas.findOne({ where: { id } });
@@ -160,7 +159,7 @@ class MatrículaController {
         });
       }
 
-      await findForUpdate.update({ student_id, plan_id });
+      await findForUpdate.update({ student_id, plan_id, start_date });
 
       return res.send({
         status: "success",

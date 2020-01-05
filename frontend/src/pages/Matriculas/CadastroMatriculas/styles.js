@@ -132,7 +132,24 @@ export const InputAluno = styled(Select)`
   background-position-x: 98%;
 `;
 
-export const InputPlanoDtInicio = styled(Select)`
+export const InputDtInicio = styled(Input)`
+  padding: 10px 15px;
+  font-size: 15px;
+  border: 1px solid #dddddd;
+  margin-bottom: 20px;
+  width: 100%;
+  border-radius: 4px;
+
+  /* -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: transparent;
+  background: url("http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png")
+    no-repeat right;
+  background-position-x: 95%; */
+`;
+
+export const InputPlanos = styled(Select)`
   padding: 10px 15px;
   font-size: 15px;
   border: 1px solid #dddddd;
