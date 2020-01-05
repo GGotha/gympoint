@@ -6,7 +6,7 @@
 yarn install
 ```
 
-2. Insira o primeiro comando no seu terminal, após a criação da imagem, execute a query (segunda linha) para a criação do banco de dados
+2. Insira o comando do docker para criar a imagem e depois execute a query (segunda linha) para a criação do banco de dados
 
 ```
 docker run -i --name gympoint -d -p 127.0.0.1:3306:3306 -e MYSQL_ROOT_PASSWORD=root -t cytopia/mariadb-10.2
